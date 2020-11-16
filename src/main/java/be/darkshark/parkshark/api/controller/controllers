@@ -1,0 +1,21 @@
+- DI1 = /divisions post
+- DI2 = /divisions get
+- DI3 = /divisions/{id} get
+- DI4 = /divisions post
+
+- PL1 = /parking-lots post
+- PL2 = /parking-lots get
+- PL3 = /parking-lots/{id} get
+
+- ME1 = /members post
+- ME2 = /members get
+- ME3 = /members/{id} get
+
+( - ML1 = /members/{id} put)
+
+- PSA1 = /allocations post
+- PSA2 = /allocations/{id} put
+- PSA3 = /allocations?limit=<value>&allocation-status=<value>&order=<value> get
+- PSA4 = /members/{id}/allocations
+- PSA5 = /parking-lots/{id}/allocations?allocation-status=<value>
+- PSA6 = /allocations/duration
