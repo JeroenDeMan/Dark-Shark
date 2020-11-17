@@ -1,12 +1,18 @@
 package be.darkshark.parkshark.domain.entity.util;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
 public class Address {
+
+    @Column(name = "street")
     private String street;
+    @Column(name = "house_number")
     private String houseNumber;
+    @Column(name = "postal_code")
     private int postalCode;
+    @Column(name = "city")
     private String city;
 
     public Address() {

@@ -1,11 +1,14 @@
 package be.darkshark.parkshark.domain.entity.util;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
 public class PhoneNumber {
+    @Column(name = "country_code")
     private String countryCode;
+    @Column(name = "phone_number")
     private int phoneNumber;
 
     public PhoneNumber() {

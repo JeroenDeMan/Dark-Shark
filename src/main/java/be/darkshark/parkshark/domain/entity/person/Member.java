@@ -2,24 +2,25 @@ package be.darkshark.parkshark.domain.entity.person;
 
 import be.darkshark.parkshark.domain.entity.util.*;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Enumerated;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-public class Member extends Person{
+@Table(name = "member")
+public class Member extends Person {
 
     @Id
+    @Column(name = "id")
     private long id;
     @Embedded
     private LicensePlate licensePlate;
 
     @Enumerated
+    @Column(name = "member_ship_level")
     private MemberShipLevel memberShipLevel;
 
+    @Column(name = "registration_date")
     private LocalDate registrationDate;
 
     public Member() {

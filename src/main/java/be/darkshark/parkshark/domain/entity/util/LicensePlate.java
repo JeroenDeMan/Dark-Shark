@@ -1,11 +1,14 @@
 package be.darkshark.parkshark.domain.entity.util;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 
 @Embeddable
 public class LicensePlate {
+    @Column(name = "license_number")
     private  String licenseNumber;
+    @Column(name = "license_country")
     private  String licenseCountry;
 
     public LicensePlate(String licenseNumber, String licenseCountry) {

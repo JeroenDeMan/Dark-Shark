@@ -4,18 +4,15 @@ import be.darkshark.parkshark.domain.entity.util.Address;
 import be.darkshark.parkshark.domain.entity.util.MailAddress;
 import be.darkshark.parkshark.domain.entity.util.PhoneNumber;
 
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class Person {
-//    @Id
-//    private long id;
 
+    @Column(name = "first_name")
     private String firstName;
 
+    @Column(name = "last_name")
     private String lastName;
 
     @Embedded
