@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -47,5 +48,10 @@ class MemberControllerIntegrationTest {
                         "  \"registrationDate\": \"01-02-2020\"\n" +
                         "}")
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
+    }
+
+    @Test
+    public void whenGettingAllMembers_theMemberControllerGetAllMembersIsCalled() throws Exception {
+        mockMvc.perform(get("/members")).andExpect(status().isOk());
     }
 }

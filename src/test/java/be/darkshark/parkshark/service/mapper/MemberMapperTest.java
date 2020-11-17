@@ -1,6 +1,6 @@
 package be.darkshark.parkshark.service.mapper;
 
-import be.darkshark.parkshark.api.dto.person.MemberDTO;
+import be.darkshark.parkshark.api.dto.person.CreateMemberDTO;
 import be.darkshark.parkshark.api.dto.util.AddressDTO;
 import be.darkshark.parkshark.api.dto.util.LicensePlateDTO;
 import be.darkshark.parkshark.api.dto.util.PhoneNumberDTO;
@@ -10,12 +10,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class MemberMapperTest {
     MemberMapper memberMapper;
     Member memberEntity;
-    MemberDTO memberDTO;
+    CreateMemberDTO createMemberDTO;
 
     @BeforeEach
     public void setUp() {
@@ -26,26 +24,26 @@ class MemberMapperTest {
         memberEntity = new Member(1L, "Jeroen", "De Man", address, phoneNumber,new MailAddress("some@Mail.com"),
                 licensePlate, MemberShipLevel.BRONZE);
 
-        memberDTO = new MemberDTO();
-        memberDTO.setId(1);
-        memberDTO.setAddress(new AddressDTO("some street", "1", 9160, "Lokeren"));
-        memberDTO.setPhoneNumber(new PhoneNumberDTO("+32", 477889911));
-        memberDTO.setMailAddress("some@Mail.com");
-        memberDTO.setLicensePlate(new LicensePlateDTO("010-aba", "Belgium" ));
-        memberDTO.setMemberShipLevel("Bronze");
+        createMemberDTO = new CreateMemberDTO();
+        createMemberDTO.setId(1);
+        createMemberDTO.setAddress(new AddressDTO("some street", "1", 9160, "Lokeren"));
+        createMemberDTO.setPhoneNumber(new PhoneNumberDTO("+32", 477889911));
+        createMemberDTO.setMailAddress("some@Mail.com");
+        createMemberDTO.setLicensePlate(new LicensePlateDTO("010-aba", "Belgium" ));
+        createMemberDTO.setMemberShipLevel("Bronze");
     }
 
     @Test
     public void whenGivenMemberDTO_memberEntityIsCreated() {
 
 
-        Assertions.assertEquals(memberEntity, memberMapper.toEntity(memberDTO));
+        Assertions.assertEquals(memberEntity, memberMapper.toEntity(createMemberDTO));
     }
 
     @Test
     public void whenGivenMemberEntity_memberDTOIsCreated() {
 
-        Assertions.assertEquals(1, memberMapper.toDTO(memberEntity).getId());
+        Assertions.assertEquals(1, memberMapper.toCreateDTO(memberEntity).getId());
 
     }
 

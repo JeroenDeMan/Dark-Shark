@@ -29,4 +29,5 @@ class MemberRepositoryTest {
         Assertions.assertEquals(1, result.size());
     }
 
+
 }

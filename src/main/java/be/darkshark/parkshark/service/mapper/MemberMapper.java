@@ -1,6 +1,7 @@
 package be.darkshark.parkshark.service.mapper;
 
-import be.darkshark.parkshark.api.dto.person.MemberDTO;
+import be.darkshark.parkshark.api.dto.person.CreateMemberDTO;
+import be.darkshark.parkshark.api.dto.person.GetMembersDTO;
 import be.darkshark.parkshark.api.dto.util.AddressDTO;
 import be.darkshark.parkshark.api.dto.util.LicensePlateDTO;
 import be.darkshark.parkshark.api.dto.util.PhoneNumberDTO;
@@ -8,30 +9,28 @@ import be.darkshark.parkshark.domain.entity.person.Member;
 import be.darkshark.parkshark.domain.entity.util.*;
 import org.springframework.stereotype.Component;
 
-import java.util.TimeZone;
-
 @Component
 public class MemberMapper {
 
-    public Member toEntity (MemberDTO memberDTO) {
+    public Member toEntity (CreateMemberDTO createMemberDTO) {
         return new Member(
-                memberDTO.getId(),
-                memberDTO.getFirstName(),
-                memberDTO.getLastName(),
-                new Address(memberDTO.getAddress().getStreet(),
-                        memberDTO.getAddress().getHouseNumber(),
-                        memberDTO.getAddress().getPostalCode(),
-                        memberDTO.getAddress().getCity()),
-                new PhoneNumber(memberDTO.getPhoneNumber().getCountryCode(),
-                        memberDTO.getPhoneNumber().getPhoneNumber()),
-                new MailAddress(memberDTO.getMailAddress()),
-                new LicensePlate(memberDTO.getLicensePlate().getLicenseNumber(), memberDTO.getLicensePlate().getLicenseCountry()),
-                MemberShipLevel.valueOf(memberDTO.getMemberShipLevel().toUpperCase())
+                createMemberDTO.getId(),
+                createMemberDTO.getFirstName(),
+                createMemberDTO.getLastName(),
+                new Address(createMemberDTO.getAddress().getStreet(),
+                        createMemberDTO.getAddress().getHouseNumber(),
+                        createMemberDTO.getAddress().getPostalCode(),
+                        createMemberDTO.getAddress().getCity()),
+                new PhoneNumber(createMemberDTO.getPhoneNumber().getCountryCode(),
+                        createMemberDTO.getPhoneNumber().getPhoneNumber()),
+                new MailAddress(createMemberDTO.getMailAddress()),
+                new LicensePlate(createMemberDTO.getLicensePlate().getLicenseNumber(), createMemberDTO.getLicensePlate().getLicenseCountry()),
+                MemberShipLevel.valueOf(createMemberDTO.getMemberShipLevel().toUpperCase())
         );
 
     }
 
-    public MemberDTO toDTO(Member memberEntity) {
+    public CreateMemberDTO toCreateDTO(Member memberEntity) {
         AddressDTO addressDTO = new AddressDTO(memberEntity.getAddress().getStreet(),
                 memberEntity.getAddress().getHouseNumber(),
                 memberEntity.getAddress().getPostalCode(),
@@ -43,13 +42,31 @@ public class MemberMapper {
         LicensePlateDTO licensePlateDTO = new LicensePlateDTO(memberEntity.getLicensePlate().getLicenseNumber(),
                 memberEntity.getLicensePlate().getLicenseCountry());
 
-        MemberDTO result = new MemberDTO();
+        CreateMemberDTO result = new CreateMemberDTO();
         result.setId(memberEntity.getId());
         result.setAddress(addressDTO);
         result.setPhoneNumber(phoneNumberDTO);
         result.setMailAddress(memberEntity.getMailAddress().getMailAddress());
         result.setLicensePlate(licensePlateDTO);
         result.setMemberShipLevel(memberEntity.getMemberShipLevel().toString());
+        result.setRegistrationDate(memberEntity.getRegistrationDate().toString());
+
+        return result;
+    }
+
+    public GetMembersDTO toGetMembersDTO (Member memberEntity) {
+
+        PhoneNumberDTO phoneNumberDTO = new PhoneNumberDTO(memberEntity.getPhoneNumber().getCountryCode(),
+                memberEntity.getPhoneNumber().getPhoneNumber());
+
+        GetMembersDTO result = new GetMembersDTO();
+        result.setId(memberEntity.getId());
+        result.setFirstName(memberEntity.getFirstName());
+        result.setLastName(memberEntity.getLastName());
+        result.setPhoneNumberDTO(phoneNumberDTO);
+        result.setMailAddress(memberEntity.getMailAddress().getMailAddress());
+        result.setLicensePlateNumber(memberEntity.getLicensePlate().getLicenseNumber());
+        result.setRegistrationDate(memberEntity.getRegistrationDate().toString());
 
         return result;
     }
