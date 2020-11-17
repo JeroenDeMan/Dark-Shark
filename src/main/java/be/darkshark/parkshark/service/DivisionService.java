@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -33,43 +32,35 @@ public class DivisionService {
     }
 
     public void createDivision(CreateDivisionDto createDivisionDto) {
-        try {
-            Employee director = null;
-//            System.out.println(employeeRepository.findAll().size());
-//            System.out.println("aa" + employeeRepository.findAll().get(0).getFirstName());
-//            System.out.println("aa" + employeeRepository.findAll().get(0).getId());
-////            System.out.println("bb" + employeeRepository.findById(1L).get().getFirstName());
-//            System.out.println("cc" + employeeRepository.findById(0L).get().getFirstName());
-////            System.out.println("dd" + employeeRepository.findById(2L).get().getFirstName());
-
-
-//            employeeRepository.save(new Employee()); // TO REMOVE LATER
-//            director = employeeRepository.findById(1L).get(); // TO REMOVE LATER
-
-            if (createDivisionDto.getDirector_id() != null && !createDivisionDto.getDirector_id().isBlank()) {
-                Optional<Employee> directorOptional = employeeRepository
-                        .findById(Long.valueOf(createDivisionDto.getDirector_id()));
-                if (directorOptional.isPresent()) {
-                    director = directorOptional.get();
-                } else {
-                    myLogger.warn("No director found for Id {}!", createDivisionDto.getDirector_id());
-                    throw new IllegalArgumentException(String.format("No director found for Id %s!", createDivisionDto.getDirector_id()));
-                }
-            }
-
-
-
-            Division parentDivision = null;
-            if (createDivisionDto.getParent_division_id() != null && !createDivisionDto.getParent_division_id().isBlank()) {
-                Optional<Division> parentDivisionOptional = divisionRepository.findById(Long.valueOf(createDivisionDto.getParent_division_id()));
-                if (parentDivisionOptional.isPresent()) parentDivision = parentDivisionOptional.get();
-            }
-            Division division = new Division(createDivisionDto.getName(), createDivisionDto.getOriginalName(), director, parentDivision);
-            divisionRepository.save(division);
-            myLogger.info("Division created: name = {}, original name = {}, director = {}, parent division = {} {}", division.getName(), division.getOriginalName(), "dummyEMployee", division.getParentDivision(), System.lineSeparator());
-        } catch (Exception exception) {
-            myLogger.warn(exception.getMessage());
+        if (createDivisionDto.getDirector_id() == null || createDivisionDto.getDirector_id().isBlank()) {
+            myLogger.warn("Invalid Director Id {}!", createDivisionDto.getDirector_id());
+            throw new IllegalArgumentException("Invalid Director Id");
         }
+        Optional<Employee> directorOptional = employeeRepository
+                .findById(Long.valueOf(createDivisionDto.getDirector_id()));
+        if (directorOptional.isEmpty()) {
+            myLogger.warn("No director found for Id {}!", createDivisionDto.getDirector_id());
+            throw new IllegalArgumentException(String
+                    .format("No director found for Id %s!", createDivisionDto.getDirector_id()));
+        }
+
+        Division parentDivision = null;
+        if (createDivisionDto.getParent_division_id() != null && !createDivisionDto.getParent_division_id().isBlank()) {
+            Optional<Division> parentDivisionOptional = divisionRepository
+                    .findById(Long.valueOf(createDivisionDto.getParent_division_id()));
+            if (parentDivisionOptional.isEmpty()) {
+                myLogger.warn("No Division found for Id {}!", createDivisionDto.getDirector_id());
+                throw new IllegalArgumentException(String
+                        .format("No Division found for Id %s!", createDivisionDto.getDirector_id()));
+            }
+            parentDivision = parentDivisionOptional.get();
+        }
+
+        Division division = divisionMapper.maptoDivision(createDivisionDto, directorOptional.get(), parentDivision);
+        divisionRepository.save(division);
+        myLogger.info("Division created: name = {}, original name = {}, director = {}, parent division = {} {}", division
+                .getName(), division.getOriginalName(), "dummyEMployee", division.getParentDivision(), System
+                .lineSeparator());
     }
 
     public Collection<DivisionDto> getAll() {

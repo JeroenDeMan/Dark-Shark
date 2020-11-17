@@ -10,9 +10,9 @@ public class DivisionDto {
 
     private long director_id;
 
-    private long parent_division_id;
+    private String parent_division_id;
 
-    public DivisionDto(long id, String name, String originalName, long director_id, long parent_division_id) {
+    public DivisionDto(long id, String name, String originalName, long director_id, String parent_division_id) {
         this.id = id;
         this.name = name;
         this.originalName = originalName;
@@ -49,11 +49,11 @@ public class DivisionDto {
         return this;
     }
 
-    public long getParent_division_id() {
+    public String getParent_division_id() {
         return parent_division_id;
     }
 
-    public DivisionDto setParent_division_id(long parent_division_id) {
+    public DivisionDto setParent_division_id(String parent_division_id) {
         this.parent_division_id = parent_division_id;
         return this;
     }
