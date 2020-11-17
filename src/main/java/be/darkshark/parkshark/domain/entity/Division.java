@@ -19,9 +19,9 @@ public class Division {
     @Column(name = "original_name")
     private String originalName;
 
-//    @ManyToOne(optional = false)
+    @ManyToOne(optional = false)
 //    @JoinColumn(name = "id")
- //   private Employee director;
+    private Employee director;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Division parentDivision;
@@ -29,7 +29,7 @@ public class Division {
     public Division(String name, String originalName, Employee director, Division parentDivision) {
         this.name = name;
         this.originalName = originalName;
-     //   this.director = director;
+        this.director = director;
         this.parentDivision = parentDivision;
     }
 
@@ -55,14 +55,14 @@ public class Division {
     public void setOriginalName(String originalName) {
         this.originalName = originalName;
     }
-//
-//    public Employee getDirector() {
-//        return
-//    }
-//
-//    public void setDirector(Employee director) {
-//        this.director = director;
-//    }
+
+    public Employee getDirector() {
+        return this.director;
+    }
+
+    public void setDirector(Employee director) {
+        this.director = director;
+    }
 
     public Division getParentDivision() {
         return parentDivision;

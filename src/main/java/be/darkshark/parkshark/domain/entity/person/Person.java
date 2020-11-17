@@ -11,8 +11,8 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public abstract class Person {
-    @Id
-    private long id;
+//    @Id
+//    private long id;
 
     private String firstName;
 
