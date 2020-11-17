@@ -1,11 +1,13 @@
 package be.darkshark.parkshark.domain.entity.util;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
 @Embeddable
 public class MailAddress {
+    @Column(name = "mail_address")
     private String mailAddress;
 
     protected MailAddress() {
