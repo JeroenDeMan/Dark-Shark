@@ -13,7 +13,6 @@ public class Member extends Person{
 
     @Id
     private long id;
-
     @Embedded
     private LicensePlate licensePlate;
 

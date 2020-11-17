@@ -5,32 +5,32 @@ import java.util.Objects;
 
 @Embeddable
 public class LicensePlate {
-    private  String number;
-    private  String country;
+    private  String licenseNumber;
+    private  String licenseCountry;
 
-    public LicensePlate(String number, String country) {
-        this.number = number;
-        this.country = country;
+    public LicensePlate(String licenseNumber, String licenseCountry) {
+        this.licenseNumber = licenseNumber;
+        this.licenseCountry = licenseCountry;
     }
 
     public LicensePlate() {
 
     }
 
-    public String getNumber() {
-        return number;
+    public String getLicenseNumber() {
+        return licenseNumber;
     }
 
-    public String getCountry() {
-        return country;
+    public String getLicenseCountry() {
+        return licenseCountry;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
     }
 
-    public void setCountry(String country) {
-        this.country = country;
+    public void setLicenseCountry(String licenseCountry) {
+        this.licenseCountry = licenseCountry;
     }
 
     @Override
@@ -38,12 +38,12 @@ public class LicensePlate {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LicensePlate that = (LicensePlate) o;
-        return Objects.equals(number, that.number) &&
-                Objects.equals(country, that.country);
+        return Objects.equals(licenseNumber, that.licenseNumber) &&
+                Objects.equals(licenseCountry, that.licenseCountry);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(number, country);
+        return Objects.hash(licenseNumber, licenseCountry);
     }
 }

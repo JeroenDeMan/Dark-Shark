@@ -1,3 +1,6 @@
-insert into member (id, license_plate, member_ship_level, registration_date,
-                    first_name, last_name)
-                    values (1, 454545, 'belgium', to_date('17-11-2020', ('dd-MM-yyyy')), 'Jeroen', 'De Man');
+-- create table person ( id bigint not null, city varchar(255), house_number varchar(255), postal_code varchar(255),
+-- street varchar(255), first_name varchar(255), last_name varchar(255), mail_address varchar(255), country_code varchar(255), phone_number integer not null,
+--  license_country varchar(255), license_number varchar(255), member_ship_level integer, registration_date date)
+
+
+insert into member (id, city, house,

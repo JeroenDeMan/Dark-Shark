@@ -4,11 +4,27 @@ import be.darkshark.parkshark.domain.entity.util.Address;
 import be.darkshark.parkshark.domain.entity.util.MailAddress;
 import be.darkshark.parkshark.domain.entity.util.PhoneNumber;
 
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+
+@MappedSuperclass
 public abstract class Person {
-    private  String firstName;
-    private  String lastName;
+    @Id
+    private long id;
+
+    private String firstName;
+
+    private String lastName;
+
+    @Embedded
     private  Address address;
+
+    @Embedded
     private  PhoneNumber phoneNumber;
+
+    @Embedded
     private  MailAddress mailAddress;
 
     public Person() {

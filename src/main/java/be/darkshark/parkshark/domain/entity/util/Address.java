@@ -1,21 +1,27 @@
 package be.darkshark.parkshark.domain.entity.util;
 
-public class Address {
-    private final String street;
-    private final String number;
-    private final String postalCode;
-    private final String city;
+import javax.persistence.Embeddable;
 
-    public Address(String street, String number, String postalCode, String city) {
+@Embeddable
+public class Address {
+    private String street;
+    private String houseNumber;
+    private String postalCode;
+    private String city;
+
+    public Address() {
+    }
+
+    public Address(String street, String houseNumber, String postalCode, String city) {
         this.street = street;
-        this.number = number;
+        this.houseNumber = houseNumber;
         this.postalCode = postalCode;
         this.city = city;
     }
 
     @Override
     public String toString() {
-        return street + " " + number
+        return street + " " + houseNumber
                 + "\n" + postalCode + ", " + city;
     }
 }

@@ -20,6 +20,9 @@ class MemberRepositoryTest {
     MemberRepository memberRepository;
 
     @Test
+    public void blancSetUp() {}
+
+    @Test
     @Sql("insert-members.sql")
     public void whenAddingAMember_repositorySizeIsOne() {
         List<Member> result = StreamSupport.stream(memberRepository.findAll().spliterator(), false).collect(Collectors.toList());

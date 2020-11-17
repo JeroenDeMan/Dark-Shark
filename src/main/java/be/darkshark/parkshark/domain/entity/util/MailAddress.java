@@ -1,10 +1,15 @@
 package be.darkshark.parkshark.domain.entity.util;
 
+import javax.persistence.Embeddable;
 import java.util.Objects;
 import java.util.regex.Pattern;
 
+@Embeddable
 public class MailAddress {
     private String mailAddress;
+
+    protected MailAddress() {
+    }
 
     public MailAddress(String mailAddress){
         if(isMailAddressValid(mailAddress)) {
