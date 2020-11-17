@@ -47,4 +47,9 @@ class MemberControllerTest {
                 "}")
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
     }
+
+    @Test
+    public void whenGettingAllMembers_theMemberControllerGetAllMembersIsCalled() throws Exception {
+        mockMvc.perform(get("/members")).andExpect(status().isOk());
+    }
 }

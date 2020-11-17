@@ -4,7 +4,7 @@ import be.darkshark.parkshark.api.dto.util.LicensePlateDTO;
 import be.darkshark.parkshark.domain.entity.util.LicensePlate;
 
 
-public class MemberDTO extends PersonDTO {
+public class CreateMemberDTO extends PersonDTO {
 
     private long id;
     private LicensePlateDTO licensePlate;
