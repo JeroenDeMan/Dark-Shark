@@ -35,6 +35,10 @@ public class MailAddress {
         return mailAddress;
     }
 
+    public void setMailAddress(String mailAddress) {
+        this.mailAddress = mailAddress;
+    }
+
     @Override
     public String toString() {
         return mailAddress;

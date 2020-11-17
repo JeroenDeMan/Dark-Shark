@@ -27,6 +27,27 @@ public abstract class Person {
     @Embedded
     private  MailAddress mailAddress;
 
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public PhoneNumber getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public MailAddress getMailAddress() {
+        return mailAddress;
+    }
+
     public Person() {
     }
 
