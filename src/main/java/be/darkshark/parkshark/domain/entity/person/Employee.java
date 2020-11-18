@@ -14,7 +14,20 @@ public class Employee extends Person {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_seq")
     private long id;
 
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="countryCode",column=@Column(name="mobile_country_code")),
+            @AttributeOverride(name="phoneNumber",column=@Column(name="mobile_phone_number"))
+    })
+    private PhoneNumber mobilePhoneNumber;
+
     public Employee() {
+    }
+
+    public Employee(long id, String firstName, String lastName, Address address, PhoneNumber phoneNumber, MailAddress mailAddress,  PhoneNumber mobilePhoneNumber) {
+        super(firstName, lastName, address, phoneNumber, mailAddress);
+        this.id = id;
+        this.mobilePhoneNumber = mobilePhoneNumber;
     }
 
     public Employee(String firstName, String lastName, Address address, PhoneNumber phoneNumber, MailAddress mailAddress) {
@@ -29,4 +42,9 @@ public class Employee extends Person {
     public long getId() {
         return id;
     }
+
+    public PhoneNumber getMobilePhoneNumber() {
+        return mobilePhoneNumber;
+    }
+
 }

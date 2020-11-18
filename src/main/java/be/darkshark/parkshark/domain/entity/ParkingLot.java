@@ -31,6 +31,10 @@ public class ParkingLot {
     @Column(name = "address")
     private Address address;
 
-//    @Column(name = "pricePerHour")
-//    private
+    @Column(name = "price_per_hour")
+    private double pricePerHour;
+
+
+
+
 }
