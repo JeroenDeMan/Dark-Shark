@@ -1,27 +1,28 @@
 package be.darkshark.parkshark.api.controller;
 
-import be.darkshark.parkshark.service.DivisionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(DivisionController.class)
-class DivisionControllerTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
+public class DivisionControllerIntegrationTest {
+    @LocalServerPort
+    int localServerPort;
+
     @Autowired
     MockMvc mockMvc;
-    @MockBean
-    DivisionService divisionService;
 
     @Test
-    void whenCallToCreateDivision_TheDivisionServiceIsCalledOnce() throws Exception {
+    public void whenCallToCreateMember_TheMemberServiceIsCalledOnce() throws Exception {
         mockMvc.perform(post("/divisions").contentType(MediaType.APPLICATION_JSON)
                                           .content("{\"name\" : \"testdivisions\", \n" +
                                                   "\"originalName\": \"original_test_name\",\n" +
@@ -31,7 +32,7 @@ class DivisionControllerTest {
     }
 
     @Test
-    public void whenGettingAllDivisions_theMemberControllerGetAllDivisionsIsCalled() throws Exception {
+    public void whenGettingAllMembers_theMemberControllerGetAllMembersIsCalled() throws Exception {
         mockMvc.perform(get("/divisions")).andExpect(status().isOk());
     }
 }
