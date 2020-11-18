@@ -22,6 +22,7 @@ public class MemberController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+
     @ResponseStatus(HttpStatus.OK)
     public List<GetMembersDTO> getAllMembers() {
         return memberService.getAllMembers();
@@ -33,9 +34,9 @@ public class MemberController {
         memberService.createMember(createMemberDTO);
     }
 
-    @PutMapping(path = "/{id}/{membershipLevel}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{id}/{membershipLevel}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public void updateMemberShipLevel(@PathVariable long id, @PathVariable String membershipLevel){
+    public void updateMemberShipLevel(@PathVariable long id, @PathVariable String membershipLevel) {
         memberService.updateMemberShipLevel(id, membershipLevel);
     }
 }

@@ -49,7 +49,7 @@ public class MemberMapper {
         result.setMailAddress(memberEntity.getMailAddress().getMailAddress());
         result.setLicensePlate(licensePlateDTO);
         result.setMemberShipLevel(memberEntity.getMemberShipLevel().toString());
-        result.setRegistrationDate(memberEntity.getRegistrationDate().toString());
+
 
         return result;
     }

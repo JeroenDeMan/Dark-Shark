@@ -8,7 +8,6 @@ public class CreateMemberDTO extends PersonDTO {
 
     private LicensePlateDTO licensePlate;
     private String memberShipLevel;
-    private String registrationDate;
 
 
     public LicensePlateDTO getLicensePlate() {
@@ -27,11 +26,5 @@ public class CreateMemberDTO extends PersonDTO {
         this.memberShipLevel = memberShipLevel;
     }
 
-    public String getRegistrationDate() {
-        return registrationDate;
-    }
 
-    public void setRegistrationDate(String registrationDate) {
-        this.registrationDate = registrationDate;
-    }
 }
