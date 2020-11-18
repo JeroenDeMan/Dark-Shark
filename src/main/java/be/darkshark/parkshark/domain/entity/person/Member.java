@@ -23,7 +23,7 @@ public class Member extends Person {
     private MemberShipLevel memberShipLevel;
 
     @Column(name = "registration_date")
-    private LocalDate registrationDate;
+    private final LocalDate registrationDate;
 
     public Member() {
         registrationDate = LocalDate.now();
@@ -51,6 +51,10 @@ public class Member extends Person {
 
     public LocalDate getRegistrationDate() {
         return registrationDate;
+    }
+
+    public void setMemberShipLevel(MemberShipLevel memberShipLevel){
+        this.memberShipLevel = memberShipLevel;
     }
 
     @Override

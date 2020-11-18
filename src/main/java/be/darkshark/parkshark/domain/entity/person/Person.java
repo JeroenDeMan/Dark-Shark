@@ -2,6 +2,7 @@ package be.darkshark.parkshark.domain.entity.person;
 
 import be.darkshark.parkshark.domain.entity.util.Address;
 import be.darkshark.parkshark.domain.entity.util.MailAddress;
+import be.darkshark.parkshark.domain.entity.util.MemberShipLevel;
 import be.darkshark.parkshark.domain.entity.util.PhoneNumber;
 
 import javax.persistence.*;
@@ -55,4 +56,5 @@ public abstract class Person {
         this.phoneNumber = phoneNumber;
         this.mailAddress = mailAddress;
     }
+
 }

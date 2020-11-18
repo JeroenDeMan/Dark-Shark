@@ -52,4 +52,11 @@ class MemberControllerTest {
     public void whenGettingAllMembers_theMemberControllerGetAllMembersIsCalled() throws Exception {
         mockMvc.perform(get("/members")).andExpect(status().isOk());
     }
+
+    @Test
+    public void whenUpdatingMemberShipLevel_theMemberControllerUpdateMemberShipLevelIsCalled() throws Exception {
+        long id = 1L;
+        String membershipLevel = "Silver";
+        mockMvc.perform(put("/members/" + id + "/" + membershipLevel).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    }
 }

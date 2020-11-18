@@ -32,4 +32,10 @@ public class MemberController {
     public void createMember(@RequestBody CreateMemberDTO createMemberDTO) {
         memberService.createMember(createMemberDTO);
     }
+
+    @PutMapping(path = "/{id}/{membershipLevel}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public void updateMemberShipLevel(@PathVariable long id, @PathVariable String membershipLevel){
+        memberService.updateMemberShipLevel(id, membershipLevel);
+    }
 }

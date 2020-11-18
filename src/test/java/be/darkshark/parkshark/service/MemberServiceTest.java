@@ -16,6 +16,7 @@ import org.mockito.Mockito;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 class MemberServiceTest {
     MemberRepository mockRepository;
@@ -106,17 +107,29 @@ class MemberServiceTest {
     }
 
     @Test
-    void whenMemberShipLevelIsInvalid_throwsIllegalArgumentException(){
+    void whenMemberShipLevelIsInvalid_throwsIllegalArgumentException() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> memberService.checkMemberShipLevel("invalid"));
     }
 
     @Test
-    void whenMemberShipLevelIsGold_setMemberShipLevelToGold(){
+    void whenMemberShipLevelIsGold_setMemberShipLevelToGold() {
         Assertions.assertEquals("GOLD", memberService.checkMemberShipLevel("gold"));
     }
 
     @Test
-    void whenMemberShipLevelIsSilver_setMemberShipLevelToSilver(){
+    void whenMemberShipLevelIsSilver_setMemberShipLevelToSilver() {
         Assertions.assertEquals("SILVER", memberService.checkMemberShipLevel("silver"));
+    }
+
+    @Test
+    void whenMemberShipLevelIsUpdated_assertMemberShipLevelIsCorrect() {
+        Member member = new Member("Jeroen", "De Man", address, phoneNumber, new MailAddress("some@Mail.com"), licensePlate, MemberShipLevel.BRONZE);
+        Optional<Member> memberOptional = Optional.of(member);
+        Mockito.when(mockRepository.findById(1L)).thenReturn(memberOptional);
+
+        memberService.updateMemberShipLevel(1L, "gold");
+
+        Assertions.assertEquals(MemberShipLevel.GOLD, member.getMemberShipLevel());
+
     }
 }
