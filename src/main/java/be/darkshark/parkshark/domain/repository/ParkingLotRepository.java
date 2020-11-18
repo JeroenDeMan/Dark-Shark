@@ -1,4 +1,11 @@
 package be.darkshark.parkshark.domain.repository;
 
-public class ParkingLotRepository {
+import be.darkshark.parkshark.domain.entity.ParkingLot;
+import org.springframework.data.repository.CrudRepository;
+
+import java.util.Collection;
+
+public interface ParkingLotRepository extends CrudRepository<ParkingLot, Long> {
+    @Override
+    Collection<ParkingLot> findAll();
 }
