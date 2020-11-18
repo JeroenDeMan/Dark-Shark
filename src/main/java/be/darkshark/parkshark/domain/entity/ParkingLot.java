@@ -6,6 +6,7 @@ import be.darkshark.parkshark.domain.entity.util.Address;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "parkinglot")
 public class ParkingLot {
     @Id
     @SequenceGenerator(name = "parkinglot_seq", sequenceName = "parkinglot_seq", allocationSize = 1)

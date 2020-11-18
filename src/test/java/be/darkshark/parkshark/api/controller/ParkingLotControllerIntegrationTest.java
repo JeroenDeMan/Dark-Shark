@@ -1,27 +1,33 @@
 package be.darkshark.parkshark.api.controller;
 
-import be.darkshark.parkshark.service.ParkingLotService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ParkingLotController.class)
-class ParkingLotControllerTest {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
+public class ParkingLotControllerIntegrationTest {
+    @LocalServerPort
+    int localServerPort;
+
     @Autowired
     MockMvc mockMvc;
-    @MockBean
-    ParkingLotService parkingLotService;
 
     @Test
     void whenCallToCreateParkingLot_TheParkingLotServiceIsCalledOnce() throws Exception {
+        mockMvc.perform(post("/divisions").contentType(MediaType.APPLICATION_JSON)
+                                          .content("{\"name\" : \"testdivisions\", \n" +
+                                                  "\"originalName\": \"original_test_name\",\n" +
+                                                  "\"director_id\": \"1\",\n" +
+                                                  "\"parent_division_id\":\"\"}"));
+
         mockMvc.perform(post("/parking-lots").contentType(MediaType.APPLICATION_JSON)
                                              .content("{\"name\" : \"Parking Lot 1\", \n" +
                                                      "\"parkingCategory\": \"underground_building\",\n" +
@@ -37,5 +43,4 @@ class ParkingLotControllerTest {
                                              .accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
     }
-
 }
