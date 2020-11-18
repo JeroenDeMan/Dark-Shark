@@ -1,12 +1,14 @@
 package be.darkshark.parkshark.api.controller;
 
-import be.darkshark.parkshark.api.dto.CreateDivisionDto;
-import be.darkshark.parkshark.api.dto.CreateParkingLotDto;
+import be.darkshark.parkshark.api.dto.parkinglot.CreateParkingLotDto;
+import be.darkshark.parkshark.api.dto.parkinglot.ParkingLotDto;
 import be.darkshark.parkshark.service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
 
 @RestController
 @RequestMapping(path = "/parking-lots")
@@ -23,6 +25,13 @@ public class ParkingLotController {
     @ResponseStatus(HttpStatus.CREATED)
     public void createParkingLot(@RequestBody CreateParkingLotDto createParkingLotDto) {
         parkingLotService.createParkingLot(createParkingLotDto);
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Collection<ParkingLotDto> getAll() {
+        Collection<ParkingLotDto> parkingLotsToReturn = parkingLotService.getAll();
+        return parkingLotsToReturn;
     }
 
 }

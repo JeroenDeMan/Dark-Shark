@@ -1,7 +1,7 @@
 package be.darkshark.parkshark.service;
 
-import be.darkshark.parkshark.api.dto.CreateDivisionDto;
-import be.darkshark.parkshark.api.dto.DivisionDto;
+import be.darkshark.parkshark.api.dto.division.CreateDivisionDto;
+import be.darkshark.parkshark.api.dto.division.DivisionDto;
 import be.darkshark.parkshark.domain.entity.Division;
 import be.darkshark.parkshark.domain.entity.person.Employee;
 import be.darkshark.parkshark.domain.entity.util.Address;

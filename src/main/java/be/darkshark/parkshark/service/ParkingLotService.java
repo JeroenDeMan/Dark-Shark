@@ -1,6 +1,7 @@
 package be.darkshark.parkshark.service;
 
-import be.darkshark.parkshark.api.dto.CreateParkingLotDto;
+import be.darkshark.parkshark.api.dto.parkinglot.CreateParkingLotDto;
+import be.darkshark.parkshark.api.dto.parkinglot.ParkingLotDto;
 import be.darkshark.parkshark.domain.entity.Division;
 import be.darkshark.parkshark.domain.entity.ParkingCategory;
 import be.darkshark.parkshark.domain.entity.ParkingLot;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Service
@@ -74,5 +76,9 @@ public class ParkingLotService {
 
     private ParkingCategory assertParkingCategory(String parkingCategory) {
         return ParkingCategory.valueOf(parkingCategory.toUpperCase());
+    }
+
+    public Collection<ParkingLotDto> getAll() {
+        return null;
     }
 }

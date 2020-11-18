@@ -1,4 +1,4 @@
-package be.darkshark.parkshark.api.dto;
+package be.darkshark.parkshark.api.dto.division;
 
 public class CreateDivisionDto {
 

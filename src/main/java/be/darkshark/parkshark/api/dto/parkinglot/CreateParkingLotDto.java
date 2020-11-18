@@ -1,4 +1,4 @@
-package be.darkshark.parkshark.api.dto;
+package be.darkshark.parkshark.api.dto.parkinglot;
 
 
 import be.darkshark.parkshark.api.dto.util.AddressDTO;
