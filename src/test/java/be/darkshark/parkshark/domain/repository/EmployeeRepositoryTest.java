@@ -9,7 +9,6 @@ import org.springframework.test.context.jdbc.Sql;
 
 import java.util.Collection;
 
-
 @DataJpaTest
 class EmployeeRepositoryTest {
 

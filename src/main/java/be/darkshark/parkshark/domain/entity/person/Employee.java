@@ -21,6 +21,11 @@ public class Employee extends Person {
         super(firstName, lastName, address, phoneNumber, mailAddress);
     }
 
+    public Employee(long id, String firstName, String lastName, Address address, PhoneNumber phoneNumber, MailAddress mailAddress) {
+        super(firstName, lastName, address, phoneNumber, mailAddress);
+        this.id = id;
+    }
+
     public long getId() {
         return id;
     }
