@@ -6,18 +6,10 @@ import be.darkshark.parkshark.domain.entity.util.LicensePlate;
 
 public class CreateMemberDTO extends PersonDTO {
 
-    private long id;
     private LicensePlateDTO licensePlate;
     private String memberShipLevel;
     private String registrationDate;
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public LicensePlateDTO getLicensePlate() {
         return licensePlate;

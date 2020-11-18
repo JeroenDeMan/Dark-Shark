@@ -8,6 +8,7 @@ import be.darkshark.parkshark.domain.entity.person.Member;
 import be.darkshark.parkshark.domain.entity.util.*;
 import be.darkshark.parkshark.domain.repository.MemberRepository;
 import be.darkshark.parkshark.service.mapper.MemberMapper;
+import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +40,6 @@ class MemberServiceTest {
 //                licensePlate, MemberShipLevel.BRONZE);
 
         createMemberDTO = new CreateMemberDTO();
-        createMemberDTO.setId(1);
         createMemberDTO.setAddress(new AddressDTO("some street", "1", 9160, "Lokeren"));
         createMemberDTO.setPhoneNumber(new PhoneNumberDTO("+32", 477889911));
         createMemberDTO.setMailAddress("some@Mail.com");
@@ -49,7 +49,7 @@ class MemberServiceTest {
 
     @Test
     public void whenCreatingAMember_repositoryMethodSaveIsCalledOnce() {
-        Member memberEntity =  new Member(1L, "Jeroen", "De Man", address, phoneNumber,new MailAddress("some@Mail.com"),
+        Member memberEntity = new Member("Jeroen", "De Man", address, phoneNumber, new MailAddress("some@Mail.com"),
                 licensePlate, MemberShipLevel.BRONZE);
         Mockito.when(mockMapper.toEntity(createMemberDTO)).thenReturn(memberEntity);
 
@@ -68,7 +68,7 @@ class MemberServiceTest {
 
     @Test
     public void whenCreatingAMember_theRegistrationDateIsSetToCurrentDate() {
-        Member member = new Member(1L, "Jeroen", "De Man", address, phoneNumber,new MailAddress("some@Mail.com"), licensePlate, MemberShipLevel.BRONZE);
+        Member member = new Member("Jeroen", "De Man", address, phoneNumber, new MailAddress("some@Mail.com"), licensePlate, MemberShipLevel.BRONZE);
         Assertions.assertEquals(LocalDate.now(), member.getRegistrationDate());
     }
 
@@ -81,7 +81,7 @@ class MemberServiceTest {
 
     @Test
     public void whenRequestingAllMembers_listOfMemberDTOIsSize1() {
-        Member memberEntity =  new Member(1L, "Jeroen", "De Man", address, phoneNumber,new MailAddress("some@Mail.com"),
+        Member memberEntity = new Member("Jeroen", "De Man", address, phoneNumber, new MailAddress("some@Mail.com"),
                 licensePlate, MemberShipLevel.BRONZE);
         Iterable<Member> iterable = List.of(memberEntity);
         Mockito.when(mockRepository.findAll()).thenReturn(iterable);
@@ -89,7 +89,34 @@ class MemberServiceTest {
         Assertions.assertEquals(1, memberService.getAllMembers().size());
     }
 
+    @Test
+    void whenNoMemberShipLevelisGiven_setMemberShipLevelToBronze() {
 
 
+        Assertions.assertEquals("BRONZE", memberService.checkMemberShipLevel(null));
 
+    }
+
+    @Test
+    void whenMemberShipLevelisEmpty_setMemberShipLevelToBronze() {
+
+
+        Assertions.assertEquals("BRONZE", memberService.checkMemberShipLevel(""));
+
+    }
+
+    @Test
+    void whenMemberShipLevelIsInvalid_throwsIllegalArgumentException(){
+        Assertions.assertThrows(IllegalArgumentException.class, () -> memberService.checkMemberShipLevel("invalid"));
+    }
+
+    @Test
+    void whenMemberShipLevelIsGold_setMemberShipLevelToGold(){
+        Assertions.assertEquals("GOLD", memberService.checkMemberShipLevel("gold"));
+    }
+
+    @Test
+    void whenMemberShipLevelIsSilver_setMemberShipLevelToSilver(){
+        Assertions.assertEquals("SILVER", memberService.checkMemberShipLevel("silver"));
+    }
 }

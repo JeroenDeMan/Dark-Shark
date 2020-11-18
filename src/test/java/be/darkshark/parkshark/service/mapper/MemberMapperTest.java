@@ -21,11 +21,10 @@ class MemberMapperTest {
         Address address = new Address("some street", "1", 9160, "Lokeren");
         PhoneNumber phoneNumber = new PhoneNumber("+32", 477889911);
         LicensePlate licensePlate = new LicensePlate("010-aba", "Belgium" );
-        memberEntity = new Member(1L, "Jeroen", "De Man", address, phoneNumber,new MailAddress("some@Mail.com"),
+        memberEntity = new Member("Jeroen", "De Man", address, phoneNumber,new MailAddress("some@Mail.com"),
                 licensePlate, MemberShipLevel.BRONZE);
 
         createMemberDTO = new CreateMemberDTO();
-        createMemberDTO.setId(1);
         createMemberDTO.setAddress(new AddressDTO("some street", "1", 9160, "Lokeren"));
         createMemberDTO.setPhoneNumber(new PhoneNumberDTO("+32", 477889911));
         createMemberDTO.setMailAddress("some@Mail.com");
@@ -43,7 +42,7 @@ class MemberMapperTest {
     @Test
     public void whenGivenMemberEntity_memberDTOIsCreated() {
 
-        Assertions.assertEquals(1, memberMapper.toCreateDTO(memberEntity).getId());
+        Assertions.assertEquals("Jeroen", memberMapper.toCreateDTO(memberEntity).getFirstName());
 
     }
 

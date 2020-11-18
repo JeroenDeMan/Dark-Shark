@@ -11,6 +11,8 @@ import java.util.Objects;
 public class Member extends Person {
 
     @Id
+    @SequenceGenerator(name = "member_seq", sequenceName = "member_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "member_seq")
     @Column(name = "id")
     private long id;
     @Embedded
@@ -27,10 +29,9 @@ public class Member extends Person {
         registrationDate = LocalDate.now();
     }
 
-    public Member(Long id, String firstName, String lastName, Address address, PhoneNumber phoneNumber,
+    public Member(String firstName, String lastName, Address address, PhoneNumber phoneNumber,
                   MailAddress mailAddress, LicensePlate licensePlate, MemberShipLevel memberShipLevel) {
         super(firstName, lastName, address, phoneNumber, mailAddress);
-        this.id = id;
         this.licensePlate = licensePlate;
         this.memberShipLevel = memberShipLevel;
         registrationDate = LocalDate.now();

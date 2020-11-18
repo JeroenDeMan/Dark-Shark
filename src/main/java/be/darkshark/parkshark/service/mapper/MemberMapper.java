@@ -14,7 +14,6 @@ public class MemberMapper {
 
     public Member toEntity (CreateMemberDTO createMemberDTO) {
         return new Member(
-                createMemberDTO.getId(),
                 createMemberDTO.getFirstName(),
                 createMemberDTO.getLastName(),
                 new Address(createMemberDTO.getAddress().getStreet(),
@@ -43,7 +42,8 @@ public class MemberMapper {
                 memberEntity.getLicensePlate().getLicenseCountry());
 
         CreateMemberDTO result = new CreateMemberDTO();
-        result.setId(memberEntity.getId());
+        result.setFirstName(memberEntity.getFirstName());
+        result.setLastName(memberEntity.getLastName());
         result.setAddress(addressDTO);
         result.setPhoneNumber(phoneNumberDTO);
         result.setMailAddress(memberEntity.getMailAddress().getMailAddress());

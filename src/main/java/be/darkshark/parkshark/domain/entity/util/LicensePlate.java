@@ -28,13 +28,6 @@ public class LicensePlate {
         return licenseCountry;
     }
 
-    public void setLicenseNumber(String licenseNumber) {
-        this.licenseNumber = licenseNumber;
-    }
-
-    public void setLicenseCountry(String licenseCountry) {
-        this.licenseCountry = licenseCountry;
-    }
 
     @Override
     public boolean equals(Object o) {

@@ -37,7 +37,7 @@ public class MailAddress {
         return mailAddress;
     }
 
-    public void setMailAddress(String mailAddress) {
+    private void setMailAddress(String mailAddress) {
         this.mailAddress = mailAddress;
     }
 
