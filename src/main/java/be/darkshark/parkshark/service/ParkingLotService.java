@@ -51,9 +51,9 @@ public class ParkingLotService {
 
         parkingLotRepository.save(parkingLot);
 
-        myLogger.info("Parking Lot created: name = {}, original name = {}, director = {}, parent division = {} {}", division
-                .getName(), division.getOriginalName(), "dummyEMployee", division.getParentDivision(), System
-                .lineSeparator());
+        myLogger.info("Parking Lot created: name = {}, parking category = {}, capacity = {}, contact person = {}, address = {}, price = {}, division = {}{}",
+                parkingLot.getName(), parkingLot.getParkingCategory(), parkingLot.getCapacity(), parkingLot.getContactPerson(), parkingLot.getAddress(), parkingLot.getPricePerHour(), parkingLot.getDivision(),
+                System.lineSeparator());
     }
 
     private Division assertDivisionId(long divisionId) {
