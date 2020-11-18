@@ -16,7 +16,6 @@ import java.util.Collection;
 import java.util.Optional;
 
 @Service
-//@Transactional
 public class DivisionService {
 
     private final Logger myLogger = LoggerFactory.getLogger(DivisionService.class);
@@ -33,13 +32,13 @@ public class DivisionService {
 
     public void createDivision(CreateDivisionDto createDivisionDto) {
         if (createDivisionDto.getDirector_id() == null || createDivisionDto.getDirector_id().isBlank()) {
-            myLogger.warn("Invalid Director Id {}!", createDivisionDto.getDirector_id());
+            myLogger.error("Invalid Director Id {}!", createDivisionDto.getDirector_id());
             throw new IllegalArgumentException("Invalid Director Id");
         }
         Optional<Employee> directorOptional = employeeRepository
                 .findById(Long.valueOf(createDivisionDto.getDirector_id()));
         if (directorOptional.isEmpty()) {
-            myLogger.warn("No director found for Id {}!", createDivisionDto.getDirector_id());
+            myLogger.error("No director found for Id {}!", createDivisionDto.getDirector_id());
             throw new IllegalArgumentException(String
                     .format("No director found for Id %s!", createDivisionDto.getDirector_id()));
         }
@@ -49,7 +48,7 @@ public class DivisionService {
             Optional<Division> parentDivisionOptional = divisionRepository
                     .findById(Long.valueOf(createDivisionDto.getParent_division_id()));
             if (parentDivisionOptional.isEmpty()) {
-                myLogger.warn("No Division found for Id {}!", createDivisionDto.getDirector_id());
+                myLogger.error("No Division found for Id {}!", createDivisionDto.getDirector_id());
                 throw new IllegalArgumentException(String
                         .format("No Division found for Id %s!", createDivisionDto.getDirector_id()));
             }
@@ -64,7 +63,6 @@ public class DivisionService {
     }
 
     public Collection<DivisionDto> getAll() {
-        myLogger.info("Get all divisions called");
         return divisionMapper.mapCollectionToDivisionDto(divisionRepository.findAll());
     }
 
