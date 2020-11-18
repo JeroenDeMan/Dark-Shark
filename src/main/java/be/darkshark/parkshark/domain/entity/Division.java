@@ -20,10 +20,11 @@ public class Division {
     private String originalName;
 
     @ManyToOne(optional = false)
-//    @JoinColumn(name = "id")
+    @JoinColumn(name = "director")
     private Employee director;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_division")
     private Division parentDivision;
 
     public Division(String name, String originalName, Employee director, Division parentDivision) {

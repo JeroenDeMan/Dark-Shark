@@ -31,35 +31,54 @@ public class DivisionService {
     }
 
     public void createDivision(CreateDivisionDto createDivisionDto) {
-        if (createDivisionDto.getDirector_id() == null || createDivisionDto.getDirector_id().isBlank()) {
-            myLogger.error("Invalid Director Id {}!", createDivisionDto.getDirector_id());
-            throw new IllegalArgumentException("Invalid Director Id");
-        }
+        assertDirectorId(createDivisionDto);
+
         Optional<Employee> directorOptional = employeeRepository
                 .findById(Long.valueOf(createDivisionDto.getDirector_id()));
+        assertDirectorOptional(createDivisionDto, directorOptional);
+
+        Division parentDivision = getParentDivision(createDivisionDto);
+
+        Division division = divisionMapper.maptoDivision(createDivisionDto, directorOptional.get(), parentDivision);
+
+        divisionRepository.save(division);
+
+        myLogger.info("Division created: name = {}, original name = {}, director = {}, parent division = {} {}", division
+                .getName(), division.getOriginalName(), "dummyEMployee", division.getParentDivision(), System
+                .lineSeparator());
+    }
+
+    private Division getParentDivision(CreateDivisionDto createDivisionDto) {
+        if (createDivisionDto.getParent_division_id() != null && !createDivisionDto.getParent_division_id().isBlank()) {
+            Optional<Division> parentDivisionOptional = divisionRepository
+                    .findById(Long.valueOf(createDivisionDto.getParent_division_id()));
+            assertParentDivisionOptional(createDivisionDto, parentDivisionOptional);
+            return parentDivisionOptional.get();
+        }
+        return null;
+    }
+
+    private void assertParentDivisionOptional(CreateDivisionDto createDivisionDto, Optional<Division> parentDivisionOptional) {
+        if (parentDivisionOptional.isEmpty()) {
+            myLogger.error("No Division found for Id {}!", createDivisionDto.getDirector_id());
+            throw new IllegalArgumentException(String
+                    .format("No Division found for Id %s!", createDivisionDto.getDirector_id()));
+        }
+    }
+
+    private void assertDirectorOptional(CreateDivisionDto createDivisionDto, Optional<Employee> directorOptional) {
         if (directorOptional.isEmpty()) {
             myLogger.error("No director found for Id {}!", createDivisionDto.getDirector_id());
             throw new IllegalArgumentException(String
                     .format("No director found for Id %s!", createDivisionDto.getDirector_id()));
         }
+    }
 
-        Division parentDivision = null;
-        if (createDivisionDto.getParent_division_id() != null && !createDivisionDto.getParent_division_id().isBlank()) {
-            Optional<Division> parentDivisionOptional = divisionRepository
-                    .findById(Long.valueOf(createDivisionDto.getParent_division_id()));
-            if (parentDivisionOptional.isEmpty()) {
-                myLogger.error("No Division found for Id {}!", createDivisionDto.getDirector_id());
-                throw new IllegalArgumentException(String
-                        .format("No Division found for Id %s!", createDivisionDto.getDirector_id()));
-            }
-            parentDivision = parentDivisionOptional.get();
+    private void assertDirectorId(CreateDivisionDto createDivisionDto) {
+        if (createDivisionDto.getDirector_id() == null || createDivisionDto.getDirector_id().isBlank()) {
+            myLogger.error("Invalid Director Id {}!", createDivisionDto.getDirector_id());
+            throw new IllegalArgumentException("Invalid Director Id");
         }
-
-        Division division = divisionMapper.maptoDivision(createDivisionDto, directorOptional.get(), parentDivision);
-        divisionRepository.save(division);
-        myLogger.info("Division created: name = {}, original name = {}, director = {}, parent division = {} {}", division
-                .getName(), division.getOriginalName(), "dummyEMployee", division.getParentDivision(), System
-                .lineSeparator());
     }
 
     public Collection<DivisionDto> getAll() {

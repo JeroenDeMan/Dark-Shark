@@ -36,6 +36,11 @@ class DivisionServiceTest {
     }
 
     @Test
+    @Sql("insert-members-service.sql")
+    void loadSQLFile() {
+    }
+
+    @Test
     void createDivision() {
 
         DivisionMapper divisionMapper = new DivisionMapper();
