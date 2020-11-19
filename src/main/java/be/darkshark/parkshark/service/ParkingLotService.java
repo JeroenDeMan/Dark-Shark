@@ -3,8 +3,8 @@ package be.darkshark.parkshark.service;
 import be.darkshark.parkshark.api.dto.parkinglot.CreateParkingLotDto;
 import be.darkshark.parkshark.api.dto.parkinglot.ParkingLotDto;
 import be.darkshark.parkshark.domain.entity.Division;
-import be.darkshark.parkshark.domain.entity.ParkingCategory;
-import be.darkshark.parkshark.domain.entity.ParkingLot;
+import be.darkshark.parkshark.domain.entity.parkinglot.ParkingCategory;
+import be.darkshark.parkshark.domain.entity.parkinglot.ParkingLot;
 import be.darkshark.parkshark.domain.entity.person.Employee;
 import be.darkshark.parkshark.domain.repository.DivisionRepository;
 import be.darkshark.parkshark.domain.repository.EmployeeRepository;
@@ -79,6 +79,6 @@ public class ParkingLotService {
     }
 
     public Collection<ParkingLotDto> getAll() {
-        return null;
+        return parkingLotMapper.mapCollectionToParkingLotDto(parkingLotRepository.findAll());
     }
 }

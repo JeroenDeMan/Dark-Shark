@@ -1,5 +1,6 @@
 package be.darkshark.parkshark.domain.entity;
 
+import be.darkshark.parkshark.domain.entity.parkinglot.ParkingLot;
 import be.darkshark.parkshark.domain.entity.person.Member;
 
 import javax.persistence.*;

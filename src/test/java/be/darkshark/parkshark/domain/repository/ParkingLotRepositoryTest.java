@@ -1,6 +1,6 @@
 package be.darkshark.parkshark.domain.repository;
 
-import be.darkshark.parkshark.domain.entity.ParkingLot;
+import be.darkshark.parkshark.domain.entity.parkinglot.ParkingLot;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

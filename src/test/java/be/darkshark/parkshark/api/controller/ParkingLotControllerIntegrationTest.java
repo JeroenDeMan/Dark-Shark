@@ -8,6 +8,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,4 +44,10 @@ public class ParkingLotControllerIntegrationTest {
                                              .accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
 
     }
+
+    @Test
+    public void whenGettingAllParkingLots_theParkingLotControllerGetAllIsCalled() throws Exception {
+        mockMvc.perform(get("/parking-lots")).andExpect(status().isOk());
+    }
+
 }
