@@ -44,4 +44,10 @@ class AllocationRepositoryTest {
         Assertions.assertNull(allocationRepository.findByMember_IdAndEndTimeIsNull(3));
     }
 
+    @Test
+    @Sql("insert-allocation.sql")
+    public void whenStoppingAllocation_OneActiveAllocationIsProvided() {
+        Assertions.assertNotNull(allocationRepository.findByIdAndMember_IdAndEndTimeIsNull(2,2));
+    }
+
 }

@@ -12,6 +12,8 @@ public interface AllocationRepository extends CrudRepository<Allocation, Long> {
 
     Allocation findByMember_IdAndEndTimeIsNull(long memberId);
 
+    Allocation findByIdAndMember_IdAndEndTimeIsNull(long allocationId, long memberID);
+
     long countAllByParkingLot_IdAndEndTimeIsNull(long parkingLotId);
 
 }

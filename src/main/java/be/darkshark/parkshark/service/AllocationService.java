@@ -43,7 +43,7 @@ public class AllocationService {
         Member member = checkIfMemberExists(createAllocationDTO.getMemberId());
         ParkingLot parkingLot = checkIfParkingLotExists(createAllocationDTO.getParkingLotId());
 
-        if (checkIfMemberActiveAllocation(createAllocationDTO.getMemberId())
+        if (checkIfMemberHasNoAllocation(createAllocationDTO.getMemberId())
                 && checkIfLicencePlateIsCorrect(createAllocationDTO.getLicencePlate(), member)
                 && checkIfParkingSpotAvailable(parkingLot)) {
             Allocation allocation = allocationMapper.toEntity(createAllocationDTO);
@@ -57,7 +57,7 @@ public class AllocationService {
         throw new IllegalArgumentException("Allocation not created, bad luck !");
     }
 
-    private boolean checkIfMemberActiveAllocation(long memberId) {
+    private boolean checkIfMemberHasNoAllocation(long memberId) {
         if (allocationRepository.findByMember_IdAndEndTimeIsNull(memberId) == null) {
             return true;
         }
@@ -97,5 +97,13 @@ public class AllocationService {
         }
         log.warn("No parking spots available");
         return false;
+    }
+
+    public GetAllocationDTO stopAllocation(long allocationId, long memberId) {
+        Allocation result = allocationRepository.findByIdAndMember_IdAndEndTimeIsNull(allocationId, memberId);
+
+        if (result == null) throw new IllegalArgumentException("No active allocation found with id " + allocationId + " and for member with id " + memberId);
+        result.setEndTime();
+        return allocationMapper.getAllocationDTO(result);
     }
 }

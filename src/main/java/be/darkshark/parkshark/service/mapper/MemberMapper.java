@@ -66,7 +66,7 @@ public class MemberMapper {
         result.setPhoneNumberDTO(phoneNumberDTO);
         result.setMailAddress(memberEntity.getMailAddress().getMailAddress());
         result.setLicensePlateNumber(memberEntity.getLicensePlate().getLicenseNumber());
-        result.setRegistrationDate(memberEntity.getRegistrationDate().toString());
+        result.setRegistrationDate(memberEntity.getRegistrationDate().format(FormatUtil.getDateFormat()));
 
         return result;
     }
