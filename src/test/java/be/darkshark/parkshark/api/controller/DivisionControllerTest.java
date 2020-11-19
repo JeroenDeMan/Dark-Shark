@@ -34,4 +34,9 @@ class DivisionControllerTest {
         mockMvc.perform(get("/divisions")).andExpect(status().isOk());
     }
 
+    @Test
+    public void whenGettingADivision_theMemberControllerGetADivisionIsCalled() throws Exception {
+        mockMvc.perform(get("/divisions/1")).andExpect(status().isOk());
+    }
+
 }

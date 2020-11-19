@@ -22,7 +22,7 @@ public class DivisionControllerIntegrationTest {
     MockMvc mockMvc;
 
     @Test
-    public void whenCallToCreateMember_TheMemberServiceIsCalledOnce() throws Exception {
+    public void whenCallToCreateDivision_TheDivisionServiceIsCalledOnce() throws Exception {
         mockMvc.perform(post("/divisions").contentType(MediaType.APPLICATION_JSON)
                                           .content("{\"name\" : \"testdivisions\", \n" +
                                                   "\"originalName\": \"original_test_name\",\n" +
@@ -32,7 +32,18 @@ public class DivisionControllerIntegrationTest {
     }
 
     @Test
-    public void whenGettingAllMembers_theMemberControllerGetAllMembersIsCalled() throws Exception {
+    public void whenGettingAllDivisions_theMemberControllerGetAllDivisionsIsCalled() throws Exception {
         mockMvc.perform(get("/divisions")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void whenGettingADivision_theMemberControllerGetADivisionIsCalled() throws Exception {
+        mockMvc.perform(post("/divisions").contentType(MediaType.APPLICATION_JSON)
+                                          .content("{\"name\" : \"testdivisions\", \n" +
+                                                  "\"originalName\": \"original_test_name\",\n" +
+                                                  "\"director_id\": \"1\",\n" +
+                                                  "\"parent_division_id\":\"\"}"));
+
+        mockMvc.perform(get("/divisions/1")).andExpect(status().isOk());
     }
 }

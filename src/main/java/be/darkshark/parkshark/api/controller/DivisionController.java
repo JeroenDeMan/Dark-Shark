@@ -35,4 +35,11 @@ public class DivisionController {
         return divisionsToReturn;
     }
 
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public DivisionDto getOneDivisionById(@PathVariable long id) {
+        DivisionDto divisionToReturn = divisionService.getADivisionById(id);
+        return divisionToReturn;
+    }
+
 }

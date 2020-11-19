@@ -111,4 +111,28 @@ class DivisionServiceTest {
         Mockito.verify(divisionRepository, Mockito.times(1)).findAll();
     }
 
+
+    @Test
+    public void whenRequestingADivision_repositoryMethodIsCalledOnce() {
+        Mockito.when(divisionRepository.findById(1L)).thenReturn(Optional.of(division));
+        DivisionDto divisionDto = new DivisionDto();
+        divisionDto.setName(division.getName()).setOriginalName(division.getOriginalName()).setDirector_id(1L).setParent_division_id("1");
+        Mockito.when(divisionMapper.mapToDivisionDto(division)).thenReturn(divisionDto);
+
+        divisionService.getADivisionById(1L);
+
+        Mockito.verify(divisionRepository, Mockito.times(1)).findById(1L);
+    }
+
+    @Test
+    public void whenRequestingADivision_MapperMethodIsCalledOnce() {
+        Mockito.when(divisionRepository.findById(1L)).thenReturn(Optional.of(division));
+        DivisionDto divisionDto = new DivisionDto();
+        divisionDto.setName(division.getName()).setOriginalName(division.getOriginalName()).setDirector_id(1L).setParent_division_id("1");
+        Mockito.when(divisionMapper.mapToDivisionDto(division)).thenReturn(divisionDto);
+
+        divisionService.getADivisionById(1L);
+
+        Mockito.verify(divisionMapper, Mockito.times(1)).mapToDivisionDto(division);
+    }
 }

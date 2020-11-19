@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -85,4 +86,12 @@ public class DivisionService {
         return divisionMapper.mapCollectionToDivisionDto(divisionRepository.findAll());
     }
 
+    public DivisionDto getADivisionById(long id) {
+        Optional<Division> divisionOptional = divisionRepository.findById(id);
+        if (divisionOptional.isEmpty()) {
+            throw new EntityNotFoundException("Division not found");
+        }
+
+        return divisionMapper.mapToDivisionDto(divisionOptional.get());
+    }
 }

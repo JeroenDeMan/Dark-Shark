@@ -27,4 +27,14 @@ public class DivisionMapper {
     public Division maptoDivision(CreateDivisionDto createDivisionDto, Employee director, Division parentDivision) {
         return new Division(createDivisionDto.getName(), createDivisionDto.getOriginalName(), director, parentDivision);
     }
+
+    public DivisionDto mapToDivisionDto(Division division) {
+        return new DivisionDto()
+                .setId(division.getId())
+                .setName(division.getName())
+                .setOriginalName(division.getOriginalName())
+                .setDirector_id(1L)
+                .setParent_division_id(division.getParentDivision() == null ? "" : String.valueOf(division
+                        .getParentDivision().getId()));
+    }
 }
