@@ -67,4 +67,16 @@ public class Allocation {
         this.licencePlate = licencePlate;
         startTime = LocalDateTime.now();
     }
+
+    @Override
+    public String toString() {
+        return "Allocation{" +
+                "id=" + id +
+                ", licencePlate='" + licencePlate + '\'' +
+                ", member=" + member +
+                ", parkingLot=" + parkingLot +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
+    }
 }

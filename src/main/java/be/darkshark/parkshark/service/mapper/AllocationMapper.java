@@ -9,18 +9,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class AllocationMapper {
 
-    public Allocation toEntity (CreateAllocationDTO createAllocationDTO)
-    {
+    public Allocation toEntity(CreateAllocationDTO createAllocationDTO) {
         return new Allocation(createAllocationDTO.getLicencePlate());
     }
-public GetAllocationDTO getAllocationDTO (Allocation allocation)
-{ GetAllocationDTO result = new GetAllocationDTO();
-  result.setAllocationId(allocation.getId());
-  result.setStartTime(allocation.getStartTime().toString());
-  result.setEndTime(allocation.getEndTime().toString());
-  result.setParkingLotId(allocation.getParkingLot().getId());
-  result.setParkingLotName(allocation.getParkingLot().getName());
-  return result;
-}
+
+    public GetAllocationDTO getAllocationDTO(Allocation allocation) {
+        GetAllocationDTO result = new GetAllocationDTO();
+        result.setAllocationId(allocation.getId());
+        result.setStartTime(allocation.getStartTime().toString());
+        result.setEndTime(allocation.getEndTime().toString());
+        result.setParkingLotId(allocation.getParkingLot().getId());
+        result.setParkingLotName(allocation.getParkingLot().getName());
+        return result;
+    }
 
 }
