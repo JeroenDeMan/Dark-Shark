@@ -26,15 +26,15 @@ INSERT INTO parkinglot(id, name, category, capacity, contact_person, city, house
 VALUES (2, 'parkinglot2', 0, 10, 1, 'Brussel', '10', 1000, 'switchfully', 40.00, 1);
 
 -- Insert Allocation
-insert into allocation (id, end_time, licence_plate, start_time, member_id, parking_lot_id)
-values (1, null, '010-aba', parsedatetime('19-11-2020 10:47:52', 'dd-MM-yyyy hh:mm:ss'),1, 1 );
+insert into allocation (id, end_time, licence_plate, start_time, status ,member_id, parking_lot_id)
+values (1, null, '010-aba', parsedatetime('19-11-2020 10:47:52', 'dd-MM-yyyy hh:mm:ss'), 0,1, 1 );
 
-insert into allocation (id, end_time, licence_plate, start_time, member_id, parking_lot_id)
-values (2, null, '020-bab', parsedatetime('19-11-2020 11:47:52', 'dd-MM-yyyy hh:mm:ss'),2, 1 );
+insert into allocation (id, end_time, licence_plate, start_time, status, member_id, parking_lot_id)
+values (2, null, '020-bab', parsedatetime('19-11-2020 11:47:52', 'dd-MM-yyyy hh:mm:ss'),0,2, 1 );
 
-insert into allocation (id, end_time, licence_plate, start_time, member_id, parking_lot_id)
-values (3, parsedatetime('18-11-2020 10:47:52', 'dd-MM-yyyy hh:mm:ss'), '010-aba', parsedatetime('18-11-2020 11:47:52', 'dd-MM-yyyy hh:mm:ss'),1, 2 );
+insert into allocation (id, end_time, licence_plate, start_time, status, member_id, parking_lot_id)
+values (3, parsedatetime('18-11-2020 10:47:52', 'dd-MM-yyyy hh:mm:ss'), '010-aba', parsedatetime('18-11-2020 11:47:52', 'dd-MM-yyyy hh:mm:ss'),1,1, 2 );
 
-insert into allocation (id, end_time, licence_plate, start_time, member_id, parking_lot_id)
-values (4, parsedatetime('18-11-2020 10:47:52', 'dd-MM-yyyy hh:mm:ss'), '010-aba', parsedatetime('18-11-2020 11:47:52', 'dd-MM-yyyy hh:mm:ss'),3, 2 );
+insert into allocation (id, end_time, licence_plate, start_time, status, member_id, parking_lot_id)
+values (4, parsedatetime('18-11-2020 10:47:52', 'dd-MM-yyyy hh:mm:ss'), '010-aba', parsedatetime('18-11-2020 10:47:52', 'dd-MM-yyyy hh:mm:ss'),1,3, 2 );
 

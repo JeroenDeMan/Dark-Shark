@@ -3,6 +3,7 @@ package be.darkshark.parkshark.service;
 import be.darkshark.parkshark.api.dto.allocation.CreateAllocationDTO;
 import be.darkshark.parkshark.api.dto.allocation.GetAllocationDTO;
 import be.darkshark.parkshark.domain.entity.Allocation;
+import be.darkshark.parkshark.domain.entity.AllocationStatus;
 import be.darkshark.parkshark.domain.entity.parkinglot.ParkingLot;
 import be.darkshark.parkshark.domain.entity.person.Member;
 import be.darkshark.parkshark.domain.entity.util.MemberShipLevel;
@@ -14,11 +15,16 @@ import be.darkshark.parkshark.service.mapper.MemberMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -92,7 +98,7 @@ public class AllocationService {
     }
 
     private boolean checkIfParkingSpotAvailable(ParkingLot parkingLot) {
-        if(allocationRepository.countAllByParkingLot_IdAndEndTimeIsNull(parkingLot.getId()) < parkingLot.getCapacity()) {
+        if (allocationRepository.countAllByParkingLot_IdAndEndTimeIsNull(parkingLot.getId()) < parkingLot.getCapacity()) {
             return true;
         }
         log.warn("No parking spots available");
@@ -102,8 +108,44 @@ public class AllocationService {
     public GetAllocationDTO stopAllocation(long allocationId, long memberId) {
         Allocation result = allocationRepository.findByIdAndMember_IdAndEndTimeIsNull(allocationId, memberId);
 
-        if (result == null) throw new IllegalArgumentException("No active allocation found with id " + allocationId + " and for member with id " + memberId);
+        if (result == null)
+            throw new IllegalArgumentException("No active allocation found with id " + allocationId + " and for member with id " + memberId);
         result.setEndTime();
         return allocationMapper.getAllocationDTO(result);
+    }
+
+    public List<GetAllocationDTO> getAllAllocations(int limit, String status, boolean desc) {
+        List<Allocation> allocations = new ArrayList<>();
+        Sort.Direction sortDirection = desc ? Sort.Direction.DESC : Sort.Direction.ASC;
+
+        allocations.addAll(getDefaultAllocations(status, sortDirection));
+
+        if (limit < 1) {
+            return allocations.stream().map(allocation -> allocationMapper.getAllocationDTO(allocation)).collect(Collectors.toList());
+        }
+
+        return allocations.stream()
+                .limit(limit)
+                .map(allocation -> allocationMapper.getAllocationDTO(allocation))
+                .collect(Collectors.toList());
+    }
+
+    private List<Allocation> getDefaultAllocations(String status, Sort.Direction sortDirection) {
+        if (!status.isEmpty()) {
+            try {
+                AllocationStatus allocationStatus = AllocationStatus.valueOf(checkIfAllocationStatusIsValid(status));
+                return allocationRepository.findAllByStatus(allocationStatus, Sort.by(sortDirection, "startTime"));
+            } catch (IllegalArgumentException exception) {
+                log.error("Allocation status is not valid");
+            }
+        }
+        return allocationRepository.findAll(Sort.by(sortDirection, "startTime"));
+
+    }
+
+    public String checkIfAllocationStatusIsValid(String allocationStatus) throws IllegalArgumentException {
+        AllocationStatus.valueOf(allocationStatus.toUpperCase());
+        return allocationStatus.toUpperCase();
+
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path = "/allocations")
 public class AllocationController {
@@ -17,6 +19,13 @@ public class AllocationController {
     @Autowired
     public AllocationController(AllocationService allocationService) {
         this.allocationService = allocationService;
+    }
+
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public List<GetAllocationDTO> getAllAllocations(@RequestParam(required = false) int limit,
+                                                    @RequestParam(required = false) String status, @RequestParam(required = false) boolean desc) {
+        return allocationService.getAllAllocations(limit, status, desc);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
