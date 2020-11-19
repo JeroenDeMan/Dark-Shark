@@ -5,6 +5,7 @@ import be.darkshark.parkshark.api.dto.allocation.GetAllocationDTO;
 import be.darkshark.parkshark.domain.entity.Allocation;
 import be.darkshark.parkshark.domain.entity.parkinglot.ParkingLot;
 import be.darkshark.parkshark.domain.entity.person.Member;
+import be.darkshark.parkshark.domain.entity.util.MemberShipLevel;
 import be.darkshark.parkshark.domain.repository.AllocationRepository;
 import be.darkshark.parkshark.domain.repository.MemberRepository;
 import be.darkshark.parkshark.domain.repository.ParkingLotRepository;
@@ -14,11 +15,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class AllocationService {
     private final Logger log = LoggerFactory.getLogger(AllocationService.class);
     private final AllocationRepository allocationRepository;
@@ -47,7 +50,7 @@ public class AllocationService {
             allocation.setMember(member);
             allocation.setParkingLot(parkingLot);
             allocationRepository.save(allocation);
-            GetAllocationDTO result = allocationMapper.getAllocationDTO(allocationRepository.findByMember_IdAndEndTimeIsNull(member.getId()));
+            GetAllocationDTO result = allocationMapper.getAllocationDTO(allocation);
             result.setMember(memberMapper.toGetMembersDTO(member));
             return result;
         }
@@ -55,9 +58,10 @@ public class AllocationService {
     }
 
     private boolean checkIfMemberActiveAllocation(long memberId) {
-        if (allocationRepository.findByMember_IdAndEndTimeIsNull(memberId) != null) {
+        if (allocationRepository.findByMember_IdAndEndTimeIsNull(memberId) == null) {
             return true;
         }
+        log.warn("Member already has active allocation");
         return false;
     }
 
@@ -80,10 +84,18 @@ public class AllocationService {
     }
 
     private boolean checkIfLicencePlateIsCorrect(String licencePlate, Member member) {
-        return member.getLicensePlate().getLicenseNumber().equals(licencePlate);
+        if (member.getMemberShipLevel() == MemberShipLevel.GOLD || member.getLicensePlate().getLicenseNumber().equals(licencePlate)) {
+            return true;
+        }
+        log.warn("License plate does not match registered member license plate");
+        return false;
     }
 
     private boolean checkIfParkingSpotAvailable(ParkingLot parkingLot) {
-        return (allocationRepository.countAllByParkingLot_IdAndEndTimeIsNull(parkingLot.getId()) < parkingLot.getCapacity());
+        if(allocationRepository.countAllByParkingLot_IdAndEndTimeIsNull(parkingLot.getId()) < parkingLot.getCapacity()) {
+            return true;
+        }
+        log.warn("No parking spots available");
+        return false;
     }
 }

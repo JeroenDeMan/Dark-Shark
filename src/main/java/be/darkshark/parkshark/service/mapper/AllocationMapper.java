@@ -17,7 +17,7 @@ public class AllocationMapper {
         GetAllocationDTO result = new GetAllocationDTO();
         result.setAllocationId(allocation.getId());
         result.setStartTime(allocation.getStartTime().toString());
-        result.setEndTime(allocation.getEndTime().toString());
+        result.setEndTime(allocation.getEndTime() == null ? " " : allocation.getEndTime().toString());
         result.setParkingLotId(allocation.getParkingLot().getId());
         result.setParkingLotName(allocation.getParkingLot().getName());
         return result;
