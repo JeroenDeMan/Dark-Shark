@@ -1,6 +1,8 @@
 package be.darkshark.parkshark.api.controller;
 
+import be.darkshark.parkshark.api.dto.division.DivisionDto;
 import be.darkshark.parkshark.api.dto.parkinglot.CreateParkingLotDto;
+import be.darkshark.parkshark.api.dto.parkinglot.DetailedParkingLotDto;
 import be.darkshark.parkshark.api.dto.parkinglot.ParkingLotDto;
 import be.darkshark.parkshark.service.ParkingLotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,13 @@ public class ParkingLotController {
     public Collection<ParkingLotDto> getAll() {
         Collection<ParkingLotDto> parkingLotsToReturn = parkingLotService.getAll();
         return parkingLotsToReturn;
+    }
+
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public DetailedParkingLotDto getOneParkingLotById(@PathVariable long id) {
+        DetailedParkingLotDto ParkingLotToReturn = parkingLotService.getAParkingLotById(id);
+        return ParkingLotToReturn;
     }
 
 }

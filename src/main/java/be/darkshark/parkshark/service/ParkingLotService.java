@@ -1,6 +1,7 @@
 package be.darkshark.parkshark.service;
 
 import be.darkshark.parkshark.api.dto.parkinglot.CreateParkingLotDto;
+import be.darkshark.parkshark.api.dto.parkinglot.DetailedParkingLotDto;
 import be.darkshark.parkshark.api.dto.parkinglot.ParkingLotDto;
 import be.darkshark.parkshark.domain.entity.Division;
 import be.darkshark.parkshark.domain.entity.parkinglot.ParkingCategory;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -80,5 +82,15 @@ public class ParkingLotService {
 
     public Collection<ParkingLotDto> getAll() {
         return parkingLotMapper.mapCollectionToParkingLotDto(parkingLotRepository.findAll());
+    }
+
+    public DetailedParkingLotDto getAParkingLotById(long id) {
+        Optional<ParkingLot> parkingLotOptional = parkingLotRepository.findById(id);
+        if (parkingLotOptional.isEmpty()) {
+            throw new EntityNotFoundException("Parking Lot not found");
+        }
+
+        return parkingLotMapper.mapToDetailedParkingLotDto(parkingLotOptional.get());
+
     }
 }

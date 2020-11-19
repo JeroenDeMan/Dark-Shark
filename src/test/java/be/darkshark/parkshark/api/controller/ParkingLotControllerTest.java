@@ -43,4 +43,9 @@ class ParkingLotControllerTest {
         mockMvc.perform(get("/parking-lots")).andExpect(status().isOk());
     }
 
+    @Test
+    public void whenAParkingLotById_theParkingLotControllerGetAllIsCalled() throws Exception {
+        mockMvc.perform(get("/parking-lots/1")).andExpect(status().isOk());
+    }
+
 }

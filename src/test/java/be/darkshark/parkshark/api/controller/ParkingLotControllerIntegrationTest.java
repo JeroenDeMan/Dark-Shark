@@ -50,4 +50,28 @@ public class ParkingLotControllerIntegrationTest {
         mockMvc.perform(get("/parking-lots")).andExpect(status().isOk());
     }
 
+    @Test
+    public void whenAParkingLotById_theParkingLotControllerGetAllIsCalled() throws Exception {
+        mockMvc.perform(post("/divisions").contentType(MediaType.APPLICATION_JSON)
+                                          .content("{\"name\" : \"testdivisions\", \n" +
+                                                  "\"originalName\": \"original_test_name\",\n" +
+                                                  "\"director_id\": \"1\",\n" +
+                                                  "\"parent_division_id\":\"\"}"));
+
+        mockMvc.perform(post("/parking-lots").contentType(MediaType.APPLICATION_JSON)
+                                             .content("{\"name\" : \"Parking Lot 1\", \n" +
+                                                     "\"parkingCategory\": \"underground_building\",\n" +
+                                                     "\"capacity\": \"5\",\n" +
+                                                     "\"contactPersonId\":\"1\",\n" +
+                                                     "\"address\": {\"street\": \"Some Street\",\n" +
+                                                     " \"houseNumber\":\"5\",\n" +
+                                                     " \"postalCode\": 9160,\n" +
+                                                     " \"city\": \"Lokeren\"},\n" +
+                                                     " \"pricePerHour\": 22.22,\n" +
+                                                     " \"divisionId\": 1\n" +
+                                                     " }"));
+
+        mockMvc.perform(get("/parking-lots/1")).andExpect(status().isOk());
+    }
+
 }

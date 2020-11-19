@@ -1,6 +1,7 @@
 package be.darkshark.parkshark.service.mapper;
 
 import be.darkshark.parkshark.api.dto.parkinglot.CreateParkingLotDto;
+import be.darkshark.parkshark.api.dto.parkinglot.DetailedParkingLotDto;
 import be.darkshark.parkshark.api.dto.parkinglot.ParkingLotDto;
 import be.darkshark.parkshark.api.dto.util.AddressDTO;
 import be.darkshark.parkshark.domain.entity.Division;
@@ -44,5 +45,22 @@ public class ParkingLotMapper {
                                   parkingLot.getContactPerson().getPhoneNumber().getCountryCode() + parkingLot.getContactPerson().getPhoneNumber().getPhoneNumber()
                           ))
                           .collect(Collectors.toList());
+    }
+
+    public DetailedParkingLotDto mapToDetailedParkingLotDto(ParkingLot parkingLot) {
+        return new DetailedParkingLotDto(
+                parkingLot.getId(),
+                parkingLot.getName(),
+                parkingLot.getParkingCategory().toString(),
+                parkingLot.getCapacity(),
+                parkingLot.getContactPerson().getId(),
+                new AddressDTO(
+                        parkingLot.getAddress().getStreet(),
+                        parkingLot.getAddress().getHouseNumber(),
+                        parkingLot.getAddress().getPostalCode(),
+                        parkingLot.getAddress().getCity()),
+                parkingLot.getPricePerHour(),
+                parkingLot.getDivision().getId()
+        );
     }
 }

@@ -1,6 +1,8 @@
 package be.darkshark.parkshark.service;
 
+import be.darkshark.parkshark.api.dto.division.DivisionDto;
 import be.darkshark.parkshark.api.dto.parkinglot.CreateParkingLotDto;
+import be.darkshark.parkshark.api.dto.parkinglot.DetailedParkingLotDto;
 import be.darkshark.parkshark.api.dto.parkinglot.ParkingLotDto;
 import be.darkshark.parkshark.api.dto.util.AddressDTO;
 import be.darkshark.parkshark.domain.entity.Division;
@@ -127,5 +129,56 @@ class ParkingLotServiceTest {
         parkingLotService.getAll();
         Mockito.verify(parkingLotMapper, Mockito.times(1)).mapCollectionToParkingLotDto(parkingLots);
     }
+
+
+
+    @Test
+    public void whenRequestingAParkingLot_repositoryMethodIsCalledOnce() {
+        Mockito.when(parkingLotRepository.findById(1L)).thenReturn(Optional.of(parkingLot));
+        DetailedParkingLotDto parkingLotDto = new DetailedParkingLotDto(
+                parkingLot.getId(),
+                parkingLot.getName(),
+                parkingLot.getParkingCategory().toString(),
+                parkingLot.getCapacity(),
+                parkingLot.getContactPerson().getId(),
+                new AddressDTO(
+                        parkingLot.getAddress().getStreet(),
+                        parkingLot.getAddress().getHouseNumber(),
+                        parkingLot.getAddress().getPostalCode(),
+                        parkingLot.getAddress().getCity()),
+                parkingLot.getPricePerHour(),
+                parkingLot.getDivision().getId()
+        );
+        Mockito.when(parkingLotMapper.mapToDetailedParkingLotDto(parkingLot)).thenReturn(parkingLotDto);
+
+        parkingLotService.getAParkingLotById(1L);
+
+        Mockito.verify(parkingLotRepository, Mockito.times(1)).findById(1L);
+    }
+
+    @Test
+    public void whenRequestingAParkingLot_MapperMethodIsCalledOnce() {
+        Mockito.when(parkingLotRepository.findById(1L)).thenReturn(Optional.of(parkingLot));
+        DetailedParkingLotDto parkingLotDto = new DetailedParkingLotDto(
+                parkingLot.getId(),
+                parkingLot.getName(),
+                parkingLot.getParkingCategory().toString(),
+                parkingLot.getCapacity(),
+                parkingLot.getContactPerson().getId(),
+                new AddressDTO(
+                        parkingLot.getAddress().getStreet(),
+                        parkingLot.getAddress().getHouseNumber(),
+                        parkingLot.getAddress().getPostalCode(),
+                        parkingLot.getAddress().getCity()),
+                parkingLot.getPricePerHour(),
+                parkingLot.getDivision().getId()
+        );
+        Mockito.when(parkingLotMapper.mapToDetailedParkingLotDto(parkingLot)).thenReturn(parkingLotDto);
+
+        parkingLotService.getAParkingLotById(1L);
+
+        Mockito.verify(parkingLotMapper, Mockito.times(1)).mapToDetailedParkingLotDto(parkingLot);
+    }
+
 
 }
