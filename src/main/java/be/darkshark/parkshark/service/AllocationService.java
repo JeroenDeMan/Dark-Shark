@@ -38,7 +38,6 @@ public class AllocationService {
     }
 
     public GetAllocationDTO createAllocation(CreateAllocationDTO createAllocationDTO) {
-        checkIfMemberActiveAllocation(createAllocationDTO.getMemberId());
         Member member = checkIfMemberExists(createAllocationDTO.getMemberId());
         ParkingLot parkingLot = checkIfParkingLotExists(createAllocationDTO.getParkingLotId());
 
