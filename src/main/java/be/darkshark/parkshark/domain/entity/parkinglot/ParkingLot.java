@@ -1,5 +1,6 @@
-package be.darkshark.parkshark.domain.entity;
+package be.darkshark.parkshark.domain.entity.parkinglot;
 
+import be.darkshark.parkshark.domain.entity.Division;
 import be.darkshark.parkshark.domain.entity.person.Employee;
 import be.darkshark.parkshark.domain.entity.util.Address;
 
