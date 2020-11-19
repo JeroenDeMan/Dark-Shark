@@ -79,6 +79,6 @@ public class ParkingLotService {
     }
 
     public Collection<ParkingLotDto> getAll() {
-        return null;
+        return parkingLotMapper.mapCollectionToParkingLotDto(parkingLotRepository.findAll());
     }
 }

@@ -1,6 +1,7 @@
 package be.darkshark.parkshark.service;
 
 import be.darkshark.parkshark.api.dto.parkinglot.CreateParkingLotDto;
+import be.darkshark.parkshark.api.dto.parkinglot.ParkingLotDto;
 import be.darkshark.parkshark.api.dto.util.AddressDTO;
 import be.darkshark.parkshark.domain.entity.Division;
 import be.darkshark.parkshark.domain.entity.parkinglot.ParkingCategory;
@@ -21,6 +22,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -44,6 +46,7 @@ class ParkingLotServiceTest {
     private CreateParkingLotDto createParkingLotDto;
     private ParkingCategory parkingCategory;
     private ParkingLot parkingLot;
+    private ParkingLotDto parkingLotDto;
     private Address address;
 
     @BeforeEach
@@ -69,6 +72,7 @@ class ParkingLotServiceTest {
 
         address = new Address("street", "22", 1000, "City");
         parkingLot = new ParkingLot("parkingLot", parkingCategory, 5, employee, address, 33.33, division);
+        parkingLotDto = new ParkingLotDto(1L, "pppp", 66, "email@email.com", "02-000.000.000");
     }
 
     @Test
@@ -99,5 +103,29 @@ class ParkingLotServiceTest {
         Mockito.verify(parkingLotMapper, Mockito.times(1)).mapToParkingLot(createParkingLotDto, parkingCategory, employee, division);
     }
 
+
+
+
+    @Test
+    void whenRequestingAllParkingLots_repositoryMethodSaveIsCalledOnce() {
+        List<ParkingLot> parkingLots = List.of(this.parkingLot);
+        Mockito.when(parkingLotRepository.findAll()).thenReturn(parkingLots);
+        Mockito.when(parkingLotMapper.mapCollectionToParkingLotDto(parkingLots))
+               .thenReturn(List.of(parkingLotDto));
+
+        parkingLotService.getAll();
+        Mockito.verify(parkingLotRepository, Mockito.times(1)).findAll();
+    }
+
+    @Test
+    void whenRequestingAllParkingLots_parkingLotMapperMethodSaveIsCalledOnce() {
+        List<ParkingLot> parkingLots = List.of(this.parkingLot);
+        Mockito.when(parkingLotRepository.findAll()).thenReturn(parkingLots);
+        Mockito.when(parkingLotMapper.mapCollectionToParkingLotDto(parkingLots))
+               .thenReturn(List.of(parkingLotDto));
+
+        parkingLotService.getAll();
+        Mockito.verify(parkingLotMapper, Mockito.times(1)).mapCollectionToParkingLotDto(parkingLots);
+    }
 
 }

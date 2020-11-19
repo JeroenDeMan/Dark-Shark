@@ -38,4 +38,9 @@ class ParkingLotControllerTest {
 
     }
 
+    @Test
+    public void whenGettingAllParkingLots_theParkingLotControllerGetAllIsCalled() throws Exception {
+        mockMvc.perform(get("/parking-lots")).andExpect(status().isOk());
+    }
+
 }
