@@ -35,4 +35,12 @@ class AllocationControllerTest {
                         "}").accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
     }
 
+    @Test
+    public void whenCalledToStopAllocation_theAllocationServiceToStopIsCalledOnce() throws Exception {
+        long allocationId = 1L;
+        long memberId = 1L;
+
+        mockMvc.perform(put("/allocations/" + allocationId + "/" + memberId).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
+    }
+
 }

@@ -4,6 +4,7 @@ package be.darkshark.parkshark.service;
 import be.darkshark.parkshark.api.dto.allocation.CreateAllocationDTO;
 import be.darkshark.parkshark.api.dto.allocation.GetAllocationDTO;
 import be.darkshark.parkshark.domain.entity.Allocation;
+import be.darkshark.parkshark.domain.entity.AllocationStatus;
 import be.darkshark.parkshark.domain.entity.Division;
 import be.darkshark.parkshark.domain.entity.parkinglot.ParkingCategory;
 import be.darkshark.parkshark.domain.entity.parkinglot.ParkingLot;
@@ -15,11 +16,13 @@ import be.darkshark.parkshark.domain.repository.MemberRepository;
 import be.darkshark.parkshark.domain.repository.ParkingLotRepository;
 import be.darkshark.parkshark.service.mapper.AllocationMapper;
 import be.darkshark.parkshark.service.mapper.MemberMapper;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -98,6 +101,27 @@ class AllocationServiceTest {
         Mockito.verify(mockAllocationRepository).save(allocation);
         Mockito.verify(mockAllocationMapper).getAllocationDTO(allocation);
         Mockito.verify(mockMemberMapper).toGetMembersDTO(memberEntity);
+    }
+
+    @Test
+    public void whenStoppingAllocation_statusIsChangedToStopped() {
+        Allocation allocation = new Allocation();
+        Mockito.when(mockAllocationRepository.findByIdAndMember_IdAndEndTimeIsNull(1L,1L)).thenReturn(allocation);
+
+        allocationService.stopAllocation(1L, 1L);
+
+        Assertions.assertEquals(AllocationStatus.STOPPED, allocation.getStatus());
+    }
+
+    @Test
+    public void whenStoppingAllocation_endTimeIsSetToNow() {
+        Allocation allocation = new Allocation();
+        Mockito.when(mockAllocationRepository.findByIdAndMember_IdAndEndTimeIsNull(1L,1L)).thenReturn(allocation);
+
+        allocationService.stopAllocation(1L, 1L);
+
+        Assertions.assertNotNull(allocation.getEndTime());
+
     }
 
 

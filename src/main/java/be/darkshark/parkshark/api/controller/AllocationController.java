@@ -24,4 +24,11 @@ public class AllocationController {
     public GetAllocationDTO createAllocation (@RequestBody CreateAllocationDTO createAllocationDTO) {
         return allocationService.createAllocation(createAllocationDTO);
     }
+
+    @PutMapping(path = "/{allocationId}/{memberId}",produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public GetAllocationDTO stopAllocation (@PathVariable long allocationId, @PathVariable long memberId) {
+        return allocationService.stopAllocation(allocationId, memberId);
+    }
+
 }

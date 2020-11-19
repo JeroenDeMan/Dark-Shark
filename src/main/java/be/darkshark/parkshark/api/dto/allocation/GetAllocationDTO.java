@@ -9,6 +9,8 @@ public class GetAllocationDTO {
     private long parkingLotId;
     private String parkingLotName;
     private GetMembersDTO member;
+    private String status;
+
 
     public long getAllocationId() {
         return allocationId;
@@ -57,4 +59,13 @@ public class GetAllocationDTO {
     public void setMember(GetMembersDTO member) {
         this.member = member;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
 }

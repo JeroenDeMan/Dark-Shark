@@ -26,9 +26,12 @@ public class Allocation {
     @Column (name = "end_time")
     private LocalDateTime endTime;
 
+    @Enumerated
+    private AllocationStatus status;
+
     public Allocation() {
         startTime = LocalDateTime.now();
-
+        status = AllocationStatus.ACTIVE;
     }
 
     public long getId() {
@@ -55,12 +58,19 @@ public class Allocation {
         return endTime;
     }
 
+    public void setEndTime () {this.endTime = LocalDateTime.now();
+    this.status = AllocationStatus.STOPPED;}
+
     public void setMember(Member member) {
         this.member = member;
     }
 
     public void setParkingLot(ParkingLot parkingLot) {
         this.parkingLot = parkingLot;
+    }
+
+    public AllocationStatus getStatus() {
+        return status;
     }
 
     public Allocation(String licencePlate) {
