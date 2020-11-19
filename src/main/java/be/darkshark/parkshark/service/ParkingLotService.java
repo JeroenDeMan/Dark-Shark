@@ -10,13 +10,14 @@ import be.darkshark.parkshark.domain.entity.person.Employee;
 import be.darkshark.parkshark.domain.repository.DivisionRepository;
 import be.darkshark.parkshark.domain.repository.EmployeeRepository;
 import be.darkshark.parkshark.domain.repository.ParkingLotRepository;
+import be.darkshark.parkshark.exception.EntityNotFoundException;
 import be.darkshark.parkshark.service.mapper.ParkingLotMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
+//import javax.persistence.EntityNotFoundException;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -39,14 +40,17 @@ public class ParkingLotService {
 
     public void createParkingLot(CreateParkingLotDto createParkingLotDto) {
         if (createParkingLotDto.getName() == null || createParkingLotDto.getName().isBlank()) {
+            myLogger.error("Invalid name !");
             throw new IllegalArgumentException("You need a name to create a parking lot!");
         }
         ParkingCategory parkingCategory = assertParkingCategory(createParkingLotDto.getParkingCategory());
         if (createParkingLotDto.getCapacity() <= 0) {
+            myLogger.error("Invalid capacity {} !", createParkingLotDto.getCapacity());
             throw new IllegalArgumentException("Capacity can't be 0 or lower");
         }
         Employee contactPerson = assertEmployeeId(createParkingLotDto.getContactPersonId());
         if (createParkingLotDto.getPricePerHour() <= 0) {
+            myLogger.error("Invalid price {}!", createParkingLotDto.getPricePerHour());
             throw new IllegalArgumentException("Price can't be 0 or lower");
         }
         Division division = assertDivisionId(createParkingLotDto.getDivisionId());
@@ -63,7 +67,8 @@ public class ParkingLotService {
     private Division assertDivisionId(long divisionId) {
         Optional<Division> divisionOptional = divisionRepository.findById(divisionId);
         if (divisionOptional.isEmpty()) {
-            throw new IllegalArgumentException("Wrong Division Id!");
+            myLogger.error("Invalid division Id {}!", divisionId);
+            throw new EntityNotFoundException(Division.class, "id", String.valueOf(divisionId));
         }
         return divisionOptional.get();
     }
@@ -71,7 +76,8 @@ public class ParkingLotService {
     private Employee assertEmployeeId(long employeeId) {
         Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
         if (employeeOptional.isEmpty()) {
-            throw new IllegalArgumentException("Wrong Contact Person Id!");
+            myLogger.error("Invalid contact person id {} !", employeeId);
+            throw new EntityNotFoundException(Employee.class, "id", String.valueOf(employeeId));
         }
         return employeeOptional.get();
     }
@@ -87,7 +93,8 @@ public class ParkingLotService {
     public DetailedParkingLotDto getAParkingLotById(long id) {
         Optional<ParkingLot> parkingLotOptional = parkingLotRepository.findById(id);
         if (parkingLotOptional.isEmpty()) {
-            throw new EntityNotFoundException("Parking Lot not found");
+            myLogger.error("Invalid parking lot id {}!", id);
+            throw new EntityNotFoundException(ParkingLot.class, "id", String.valueOf(id));
         }
 
         return parkingLotMapper.mapToDetailedParkingLotDto(parkingLotOptional.get());

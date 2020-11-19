@@ -61,17 +61,16 @@ public class DivisionService {
 
     private void assertParentDivisionOptional(CreateDivisionDto createDivisionDto, Optional<Division> parentDivisionOptional) {
         if (parentDivisionOptional.isEmpty()) {
-            myLogger.error("No Division found for Id {}!", createDivisionDto.getDirector_id());
-            throw new IllegalArgumentException(String
-                    .format("No Division found for Id %s!", createDivisionDto.getDirector_id()));
+            myLogger.error("No Division found for Id {}!", createDivisionDto.getParent_division_id());
+            throw new be.darkshark.parkshark.exception.EntityNotFoundException(Division.class, "id", String.valueOf(createDivisionDto.getParent_division_id()));
         }
     }
 
     private void assertDirectorOptional(CreateDivisionDto createDivisionDto, Optional<Employee> directorOptional) {
         if (directorOptional.isEmpty()) {
             myLogger.error("No director found for Id {}!", createDivisionDto.getDirector_id());
-            throw new IllegalArgumentException(String
-                    .format("No director found for Id %s!", createDivisionDto.getDirector_id()));
+            throw new be.darkshark.parkshark.exception.EntityNotFoundException(Employee.class, "id", String.valueOf(createDivisionDto.getDirector_id()));
+
         }
     }
 
@@ -89,7 +88,8 @@ public class DivisionService {
     public DivisionDto getADivisionById(long id) {
         Optional<Division> divisionOptional = divisionRepository.findById(id);
         if (divisionOptional.isEmpty()) {
-            throw new EntityNotFoundException("Division not found");
+            myLogger.error("Invalid Division Id {}!", id);
+            throw new be.darkshark.parkshark.exception.EntityNotFoundException(Division.class, "id", String.valueOf(id));
         }
 
         return divisionMapper.mapToDivisionDto(divisionOptional.get());
