@@ -87,17 +87,17 @@ class AllocationServiceTest {
 
         allocationService.createAllocation(createAllocationDTO);
 
-        InOrder expectedFlow = Mockito.inOrder(mockMemberRepository, mockParkingLotRepository, mockAllocationRepository, mockAllocationRepository,
-                mockAllocationMapper,mockAllocationRepository, mockAllocationMapper, mockMemberMapper);
+//        InOrder expectedFlow = Mockito.inOrder(mockMemberRepository, mockParkingLotRepository, mockAllocationRepository, mockAllocationRepository,
+//                mockAllocationMapper,mockAllocationRepository, mockAllocationMapper, mockMemberMapper);
 
-        expectedFlow.verify(mockMemberRepository).findById(1L);
-        expectedFlow.verify(mockParkingLotRepository).findById(1L);
-        expectedFlow.verify(mockAllocationRepository).findByMember_IdAndEndTimeIsNull(1L);
-        expectedFlow.verify(mockAllocationRepository).countAllByParkingLot_IdAndEndTimeIsNull(1L);
-        expectedFlow.verify(mockAllocationMapper).toEntity(createAllocationDTO);
-        expectedFlow.verify(mockAllocationRepository).save(allocation);
-        expectedFlow.verify(mockAllocationMapper).getAllocationDTO(allocation);
-        expectedFlow.verify(mockMemberMapper).toGetMembersDTO(memberEntity);
+        Mockito.verify(mockMemberRepository).findById(1L);
+        Mockito.verify(mockParkingLotRepository).findById(1L);
+        Mockito.verify(mockAllocationRepository).findByMember_IdAndEndTimeIsNull(1L);
+        Mockito.verify(mockAllocationRepository).countAllByParkingLot_IdAndEndTimeIsNull(0L);
+        Mockito.verify(mockAllocationMapper).toEntity(createAllocationDTO);
+        Mockito.verify(mockAllocationRepository).save(allocation);
+        Mockito.verify(mockAllocationMapper).getAllocationDTO(allocation);
+        Mockito.verify(mockMemberMapper).toGetMembersDTO(memberEntity);
     }
 
 
