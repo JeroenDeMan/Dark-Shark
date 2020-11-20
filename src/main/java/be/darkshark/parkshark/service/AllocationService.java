@@ -111,7 +111,9 @@ public class AllocationService {
         if (result == null)
             throw new IllegalArgumentException("No active allocation found with id " + allocationId + " and for member with id " + memberId);
         result.setEndTime();
-        return allocationMapper.getAllocationDTO(result);
+        GetAllocationDTO getAllocationDTO = allocationMapper.getAllocationDTO(result);
+        getAllocationDTO.setMember(memberMapper.toGetMembersDTO(result.getMember()));
+        return getAllocationDTO;
     }
 
     public List<GetAllocationDTO> getAllAllocations(Integer limitController, String status, boolean desc) {
@@ -132,7 +134,7 @@ public class AllocationService {
     }
 
     private List<Allocation> getDefaultAllocations(String status, Sort.Direction sortDirection) {
-        if (!status.isEmpty()) {
+        if (status != null && !status.isEmpty()) {
             try {
                 AllocationStatus allocationStatus = AllocationStatus.valueOf(checkIfAllocationStatusIsValid(status));
                 return allocationRepository.findAllByStatus(allocationStatus, Sort.by(sortDirection, "startTime"));

@@ -76,6 +76,7 @@ public class Allocation {
     public Allocation(String licencePlate) {
         this.licencePlate = licencePlate;
         startTime = LocalDateTime.now();
+        status = AllocationStatus.ACTIVE;
     }
 
     @Override
