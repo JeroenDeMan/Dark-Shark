@@ -57,7 +57,7 @@ public class AllocationService {
             allocation.setParkingLot(parkingLot);
             allocationRepository.save(allocation);
             GetAllocationDTO result = allocationMapper.getAllocationDTO(allocation);
-            result.setMember(memberMapper.toGetMembersDTO(member));
+//            result.setMember(memberMapper.toGetMembersDTO(member));
             return result;
         }
         throw new IllegalArgumentException("Allocation not created, bad luck !");
@@ -112,7 +112,7 @@ public class AllocationService {
             throw new IllegalArgumentException("No active allocation found with id " + allocationId + " and for member with id " + memberId);
         result.setEndTime();
         GetAllocationDTO getAllocationDTO = allocationMapper.getAllocationDTO(result);
-        getAllocationDTO.setMember(memberMapper.toGetMembersDTO(result.getMember()));
+//        getAllocationDTO.setMember(memberMapper.toGetMembersDTO(result.getMember()));
         return getAllocationDTO;
     }
 
@@ -151,4 +151,6 @@ public class AllocationService {
         return allocationStatus.toUpperCase();
 
     }
+
+
 }

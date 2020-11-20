@@ -103,7 +103,6 @@ class AllocationServiceTest {
         Mockito.verify(mockAllocationMapper).toEntity(createAllocationDTO);
         Mockito.verify(mockAllocationRepository).save(allocation);
         Mockito.verify(mockAllocationMapper).getAllocationDTO(allocation);
-        Mockito.verify(mockMemberMapper).toGetMembersDTO(memberEntity);
     }
 
     @Test
