@@ -182,11 +182,11 @@ class AllocationServiceTest {
 
 
     @Test
-    public void whenSortingAllActiveAllocationsWithLimit2_listSizeIs2() throws InterruptedException {
+    public void whenSortingAllActiveAllocationsWithLimit2_listSizeIs2()  {
         Allocation firstAllocation = new Allocation("1");
-        Thread.sleep(10000);
+
         Allocation secondAllocation = new Allocation("2");
-        Thread.sleep(25000);
+
         Allocation thirdAllocation = new Allocation("3");
 
         List<Allocation> allocations = new ArrayList<>();
