@@ -18,11 +18,11 @@ public class CreateEmployees {
     public CreateEmployees(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
 
-        Employee employee1 = new Employee("Paul", "WOWO",
-                new Address("street", "22", 1000, "City"),
-                new PhoneNumber("32", 11111),
-                new MailAddress("email@email.com"));
-        employeeRepository.save(employee1);
-        System.out.println("EMPLOYEE CREATED");
+//        Employee employee1 = new Employee("Paul", "WOWO",
+//                new Address("street", "22", 1000, "City"),
+//                new PhoneNumber("32", 11111),
+//                new MailAddress("email@email.com"));
+//        employeeRepository.save(employee1);
+//        System.out.println("EMPLOYEE CREATED");
     }
 }
