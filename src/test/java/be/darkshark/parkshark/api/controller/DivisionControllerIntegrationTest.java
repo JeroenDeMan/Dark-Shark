@@ -1,5 +1,6 @@
 package be.darkshark.parkshark.api.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
@@ -7,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -23,7 +25,13 @@ public class DivisionControllerIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
+    @BeforeEach
+//    @Sql("insert-employee.sql")
+    public void setup() {
+    }
+
     @Test
+//    @Sql("insert-employee.sql")
     public void whenCallToCreateDivision_TheDivisionServiceIsCalledOnce() throws Exception {
         mockMvc.perform(post("/divisions").contentType(MediaType.APPLICATION_JSON)
                                           .content("{\"name\" : \"testdivisions\", \n" +
@@ -39,6 +47,7 @@ public class DivisionControllerIntegrationTest {
     }
 
     @Test
+    @Sql("insert-employee.sql")
     public void whenGettingADivision_theMemberControllerGetADivisionIsCalled() throws Exception {
         mockMvc.perform(post("/divisions").contentType(MediaType.APPLICATION_JSON)
                                           .content("{\"name\" : \"testdivisions\", \n" +
