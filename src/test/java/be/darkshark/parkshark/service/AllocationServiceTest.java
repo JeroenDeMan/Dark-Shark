@@ -21,8 +21,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InOrder;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -122,6 +125,82 @@ class AllocationServiceTest {
 
         Assertions.assertNotNull(allocation.getEndTime());
 
+    }
+
+    @Test
+    public void whenSortingTheAllAllocationsByDefault_theListIsSortedInAscWithNoFilters() {
+
+        allocationService.getAllAllocations(0, "", false);
+
+        Mockito.verify(mockAllocationRepository).findAll(Sort.by(Sort.Direction.ASC, "startTime"));
+
+    }
+
+    @Test
+    public void whenSortingAllAllocationsByDescValue_theListIsSortedInDescWithNoFilters()  {
+
+        allocationService.getAllAllocations(0, "", true);
+
+        Mockito.verify(mockAllocationRepository).findAll(Sort.by(Sort.Direction.DESC, "startTime"));
+
+    }
+
+
+
+
+    @Test
+    public void whenSortingAllActiveAllocations_repositoryMethodFindByStatusIsCalledOnce ()  {
+
+        allocationService.getAllAllocations(0, "Active", false);
+
+        Mockito.verify(mockAllocationRepository).findAllByStatus(AllocationStatus.ACTIVE, Sort.by(Sort.Direction.ASC, "startTime"));
+    }
+
+    @Test
+    public void whenSortingAllStoppedAllocations_repositoryMethodFindByStatusIsCalledOnce ()  {
+
+        allocationService.getAllAllocations(0, "Stopped", false);
+
+        Mockito.verify(mockAllocationRepository).findAllByStatus(AllocationStatus.STOPPED, Sort.by(Sort.Direction.ASC, "startTime"));
+    }
+
+    @Test
+    public void whenSortingAllStoppedAllocationsDesc_repositoryMethodFindByStatusIsCalledOnce ()  {
+
+        allocationService.getAllAllocations(0, "Stopped", true);
+
+        Mockito.verify(mockAllocationRepository).findAllByStatus(AllocationStatus.STOPPED, Sort.by(Sort.Direction.DESC, "startTime"));
+    }
+
+    @Test
+    public void whenSortingAllActiveAllocationsDesc_repositoryMethodFindByStatusIsCalledOnce ()  {
+
+        allocationService.getAllAllocations(0, "Active", true);
+
+        Mockito.verify(mockAllocationRepository).findAllByStatus(AllocationStatus.ACTIVE, Sort.by(Sort.Direction.DESC, "startTime"));
+    }
+
+
+    @Test
+    public void whenSortingAllActiveAllocationsWithLimit2_listSizeIs2() throws InterruptedException {
+        Allocation firstAllocation = new Allocation("1");
+        Thread.sleep(10000);
+        Allocation secondAllocation = new Allocation("2");
+        Thread.sleep(25000);
+        Allocation thirdAllocation = new Allocation("3");
+
+        List<Allocation> allocations = new ArrayList<>();
+        allocations.add(thirdAllocation);
+        allocations.add(firstAllocation);
+        allocations.add(secondAllocation);
+
+        List<GetAllocationDTO> expectedOrder = new ArrayList<>(List.of(new GetAllocationDTO(), new GetAllocationDTO()));
+
+
+        Mockito.when(mockAllocationRepository.findAll(Sort.by(Sort.Direction.ASC, "startTime"))).thenReturn(allocations);
+
+
+        Assertions.assertEquals(2, allocationService.getAllAllocations(2,"", false).size());
     }
 
 

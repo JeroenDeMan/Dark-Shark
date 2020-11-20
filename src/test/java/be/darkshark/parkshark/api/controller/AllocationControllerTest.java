@@ -43,4 +43,18 @@ class AllocationControllerTest {
         mockMvc.perform(put("/allocations/" + allocationId + "/" + memberId).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
+    @Test
+    public void whenCalledAllAllocations_theServiceForSortingIsCalled() throws Exception {
+        mockMvc.perform(get("/allocations")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void whenCalledAllAllocationsWithParameters_TheServiceForSortingIsCalled() throws Exception {
+        Integer limit = 2;
+        String status = "Active";
+        Boolean desc = true;
+
+        mockMvc.perform(get("/allocations?limit=" + limit + "&status=" + status + "&desc=" + desc)).andExpect(status().isOk());
+    }
+
 }

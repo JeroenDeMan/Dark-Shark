@@ -114,7 +114,8 @@ public class AllocationService {
         return allocationMapper.getAllocationDTO(result);
     }
 
-    public List<GetAllocationDTO> getAllAllocations(int limit, String status, boolean desc) {
+    public List<GetAllocationDTO> getAllAllocations(Integer limitController, String status, boolean desc) {
+        int limit = limitController != null ? limitController.intValue() : 0;
         List<Allocation> allocations = new ArrayList<>();
         Sort.Direction sortDirection = desc ? Sort.Direction.DESC : Sort.Direction.ASC;
 

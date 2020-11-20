@@ -23,8 +23,9 @@ public class AllocationController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public List<GetAllocationDTO> getAllAllocations(@RequestParam(required = false) int limit,
+    public List<GetAllocationDTO> getAllAllocations(@RequestParam(required = false) Integer limit,
                                                     @RequestParam(required = false) String status, @RequestParam(required = false) boolean desc) {
+
         return allocationService.getAllAllocations(limit, status, desc);
     }
 
